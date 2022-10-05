@@ -1,0 +1,9 @@
+.idea/
+out/
+WEB-INF/
+META-INF/
+SQL/
+
+*.xml
+*.gitignore
+*.iml
