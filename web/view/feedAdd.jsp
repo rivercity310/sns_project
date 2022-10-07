@@ -7,8 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.io.File" %>
 <%@ page import="dao.FeedDAO" %>
+<%@ page import="org.apache.commons.fileupload.*" %>
+<%@ page import="org.apache.commons.fileupload.disk.*" %>
+<%@ page import="org.apache.commons.fileupload.servlet.*" %>
+<%@ page import="util.FileUtil" %>
 
 <%
   request.setCharacterEncoding("utf-8");
@@ -22,7 +25,7 @@
 
   while (iter.hasNext()) {
     FileItem item = (FileItem)iter.next();
-    String name = item.getFileIdName();
+    String name = item.getFieldName();
 
     if (item.isFormField()) {
       String value = item.getString("utf-8");

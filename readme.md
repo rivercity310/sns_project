@@ -1,6 +1,6 @@
 # OOP II 개인 프로젝트
 
----
+
 ## [ JDBC 관련 함수 ]
 
 #### 1. Class.forName("com.mysql.cj.jdbc.Driver")
@@ -55,3 +55,48 @@ Connection conn = ds.getConnection();
 
 ### static
 - lookup() 함수가 반복적으로 수행되지 않도록 get() 함수가 처음 호출될 때 한해서 함수가 실행되도록 강제
+
+---
+
+## [ File Upload ]
+
+### 1. enctype 속성값
+- application/www-form-urlencoded (default)
+  - 전송되는 입력 데이터를 URL 형식으로 표현
+- multipart/form-data
+  - 입력 데이터에 파일이나 이미지가 포함될 경우 이용
+- text/plain
+  - 별도 인코딩 없이 문자 상태로 전송
+
+### 2. [Apache Commons Library](https://commons.apache.org/)
+- multipart/form-data 형식으로 데이터를 전송할 경우, request.getParameter() 함수로 입력값 추출 불가능
+- Apache Commons에서 제공하는 FileUpload, IO 라이브러리 다운
+- WEB-INF/lib에 해당 jar 파일을 저장
+- IntelliJ 경우 proejct structure에서 jar 파일 추가 설정해주기
+
+### 3. ServletFileUpload 클래스
+```java
+ServletFileUpload sfu = new ServletFileUpload(new DiskFileItemFactory());
+List items = sfu.parseRequest(request);
+Iterator it = items.iterator();
+
+while (iter.hasNext()) {
+    FileItem item = (FileItem)it.next();
+    if (item.isFormField()) {
+        // To do Something here for a form-field params   
+    }
+    else {
+        // To do Something here for a non-form-field params
+    }
+}
+```
+- parseRequest() : boundary 속성 값을 중심으로 HTTP 요청 메세지의 바디 컨텐츠 분리 후 List type으로 반환
+- Object 형태로 반환된 분리된 각각의 사용자 입력 값을 FileItem 클래스의 형태로 저장
+- isFormField() : 주어진 요소가 이름-값 쌍으로 구성된 폼 필드인지에 대한 bool 값 반환
+
+### 4. 데이터베이스에 저장
+업로드 된 파일을 서버에 저장하기 위한 방법은 크게 두가지가 있다.
+- 데이터베이스 내부에 파일을 BLOB 형식으로 저장 (비용 多)  
+- 서버에 일반 파일 형태로 저장한 후, 데이터베이스에는 파일의 path만 저장 (주로 이용)
+- application.getRealPath() 함수를 통해 현재 수행되고 있는 JSP 모듈의 루트 경로를 얻을 수 있음
+
