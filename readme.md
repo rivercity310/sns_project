@@ -58,6 +58,22 @@ Connection conn = ds.getConnection();
 
 ---
 
+## [ Data Access Object, DAO ]
+
+### 1. DAO
+- DB 접속 기능을 공유하기 위한 Java 클래스
+- DB 접속 및 수정 코드를 DAO 클래스로 모두 이관시켜, DB 처리와 HTTP 통신 처리를 분리 => 모듈화
+- 일반적으로 테이블당 하나의 DAO 클래스   
+- 구조 예
+```java
+public class UserDAO {
+        public boolean insert() { // To do Sth for making INSERT Query to DB }   
+        public boolean delete() { // To do sth for making DELETE Query to DB }
+}
+```
+
+---
+
 ## [ File Upload ]
 
 ### 1. enctype 속성값
@@ -70,9 +86,8 @@ Connection conn = ds.getConnection();
 
 ### 2. [Apache Commons Library](https://commons.apache.org/)
 - multipart/form-data 형식으로 데이터를 전송할 경우, request.getParameter() 함수로 입력값 추출 불가능
-- Apache Commons에서 제공하는 FileUpload, IO 라이브러리 다운
-- WEB-INF/lib에 해당 jar 파일을 저장
-- IntelliJ 경우 proejct structure에서 jar 파일 추가 설정해주기
+- Apache Commons에서 제공하는 FileUpload, IO 라이브러리 다운, WEB-INF/lib에 해당 jar 파일을 저장
+- IntelliJ 경우 project structure에서 jar 파일 추가 설정해주기
 
 ### 3. ServletFileUpload 클래스
 ```java
