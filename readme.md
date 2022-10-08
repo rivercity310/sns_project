@@ -1,5 +1,30 @@
 # OOP II 개인 프로젝트
+삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 진행한 클론 프로젝트입니다.
 
+## 사용 기술
+- HTML, CSS, JavaScript를 이용한 기본 골격
+- jQuery Ajax를 이용한 비동기식 전송
+- Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 구조)
+- JDBC, MySQL
+- Apache Commons Library
+
+## 프로젝트 구조
+- User 처리
+  - 로그인: login.html -> login.jsp ->       UserDAO.java
+  - 회원가입: signup.html -> signup.jsp ->     UserDAO.java
+  - 회원탈퇴: withdraw.html -> withdraw.jsp -> UserDAO.java
+  - 로그아웃: logout.jsp -> UserDAO.java
+  - 유저 리스트 보기: userList.jsp -> UserDAO.java
+  
+- Feed 처리
+  - 피드 게시: feedAdd.html -> feedAdd.jsp -> FeedDAO.java
+  - 메인 화면: index.html -> main.jsp -> FeedDAO.java
+
+- DB 처리
+  - UserDAO.java <-> User 테이블
+  - FeedDAO.java <-> Feed 테이블
+---  
+# 개념 정리
 
 ## [ JDBC 관련 함수 ]
 
