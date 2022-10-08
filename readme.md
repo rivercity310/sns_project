@@ -1,13 +1,12 @@
 # OOP II 개인 프로젝트
-삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 진행한 클론 프로젝트입니다.
+삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 간단한 웹 SNS 구현해본 클론 프로젝트입니다.
 
 ---
 
 ## 사용 기술
 - HTML, CSS, JavaScript를 이용한 기본 골격
-- jQuery Ajax를 이용한 비동기 전송
-- Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 구조)
-- JDBC, MySQL
+- Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 패턴)
+- Ajax와 JSON을 통한 비동기 전송
 - Apache Commons Library (File upload 관련)
 
 ## 프로젝트 구조
@@ -70,7 +69,7 @@
 - DataSource는 JNDI(Java Naming and Directory Interface)를 통해 호출 가능
 - 데이터베이스 연동에 필요한 URL이나 커넥션 개수 등의 파라미터들은 context.xml에서 정의
 
-### 구조
+### 1. 구조
 ```java
 Context ctx = new InitialContext();
 DataSource ds = (DataSource)ctx.lookup("java:comp/env/");
@@ -80,7 +79,7 @@ Connection conn = ds.getConnection();
 - 찾고자 하는 자원의 이름 앞에 "java:comp/env/"를 추가하여 lookup() 함수의 파라미터로 전달
 - 반환값은 Object 클래스 형태로 전달되므로 캐스팅 필요
 
-### static
+### 2. static
 - lookup() 함수가 반복적으로 수행되지 않도록 get() 함수가 처음 호출될 때 한해서 함수가 실행되도록 강제
 
 ---
@@ -152,4 +151,79 @@ while (iter.hasNext()) {
 - 데이터베이스 내부에 파일을 BLOB 형식으로 저장 (비용 多)  
 - 서버에 일반 파일 형태로 저장한 후, 데이터베이스에는 파일의 path만 저장 (주로 이용)
 - application.getRealPath() 함수를 통해 현재 수행되고 있는 JSP 모듈의 루트 경로를 얻을 수 있음
+
+---
+
+## MVC 패턴과 AJAX
+
+### 1. MVC
+- 사용자 인터페이스로부터 비즈니스 로직을 분리하여 모듈간 결합도를 낮추기 위한 디자인 패턴
+- Model: 사용자 요청을 처리하기 위한 로직 (Business Logic, DB Logic), JSP or Java
+- View: 사용자 인터페이스 담당, JSP
+- Controller: 데이터와 비즈니스 로직 사이 상호 동작 관리 (필터링, 연결 제어), Servlet 
+
+### 2. MVC 패턴의 단점
+- 서버 중심 처리 방식 -> 서버 과부하
+- AJAX와 JSON을 이용해 서버에서 이루어지던 일을 클라이언트로 이관
+- 비즈니스 로직(Model)과 결과 페이지 생성(View) 부분을 클라이언트에서 스크립트 언어로 처리
+
+### 3. AJAX (Asynchronous Java and XML)
+- JAVA나 XML 형식의 데이터를 비동기식으로 전송하기 위한 기술
+- URL을 동일하게 유지하면서 내부적으로 여러 개의 HTTP 요청, 응답을 전송할 수 있도록 지원
+
+### 4. AJAX 유의점
+- html 파일의 form 태그 제거 (required 속성 작동 안함) 
+- submit의 onclick 속성값으로 ajax 함수 등록 
+- 별도의 입력값 검사 로직을 작성해주어야 함
+- 결과 코드 생성 및 메세지 출력 부분을 클라이언트(JS)에서 처리하므로, JSP 파일에서는 out.print() 함수를 통해 서버 측 처리 결과를 간단한 코드 형태로 출력 
+---
+
+## jQuery AJAX
+
+### 1. jQuery.ajax()
+```javascript
+jQuery.ajax({
+  url: "MySNS/jsp/login.jsp",
+  type: "post",
+  data: { id="kim@abc.com", ps="111" },
+  dataType: "text",
+  success: function(msg) {
+      alert(msg);
+  },
+  error: function(xhr, status, error) {
+      if (xhr.status == 0)
+          alert("네트워크 접속이 원활하지 않습니다.");
+      else 
+          console.log(xhr.responseText);
+  },
+});
+```
+- Params
+  - url : AJAX를 통해 호출될 URL 지정
+  - type : HTTP 전송 방식
+  - data : URL의 쿼리 스트링에 해당하는 부분을 지정
+  - dataType : 서버로부터 전송되는 데이터의 포멧 (JSON, TEXT 등)
+  - success : AJAX 호출이 성공했을 때, 서버로부터 결과값을 받기 위한 함수, 함수 인자인 msg에는 서버로부터 out.print()된 출력 결과가 텍스트 형식으로 전달됨
+  - error : AJAX 호출이 실패했을 때, 에러 코드나 상태 정보를 받기 위한 함수
+   
+
+- 함수 호출을 간소화하기 위해 다음과 같은 유틸리티 함수 사용
+```javascript
+const AJAX = {
+    call: (url, params, func) => {
+        const callobj = {
+            url: url,
+            type: "post",
+            data: params,
+            dataType: "text",
+            success: func,
+            error: (xhr, status, error) => {
+                // To do sth
+            }
+        }
+        
+        jQuery.ajax(callobj);
+    }
+} 
+```
 
