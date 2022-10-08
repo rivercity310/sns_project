@@ -39,24 +39,87 @@
       }
     </style>
 
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script src="js/core.js"></script>
+    <script>
+
+        /*
+        $(document).ready(func) : 페이지가 시작될 때 호출되는 콜백 함수를 정의
+         */
+        $(document).ready(function() {
+            Page.init(start);
+        })
+
+        function start(uid) {
+            // Page setup codes will be placed here..
+            $("#id").val(uid);
+        }
+
+
+        function upload() {
+            const id = $("#id").val().trim();
+            if (id == "") {
+                alert("아이디를 입력해주세요.");
+                $("#id").focus();
+                return;
+            }
+
+            const content = $("#content").val().trim();
+            if (content == "") {
+                alert("작성글을 입력해주세요.");
+                $("#content").focus();
+                return;
+            }
+
+            /*
+            - 파일의 경우, 파일 이름 외에 파일 크기, 컨텐츠 등의 속성을 포함한 객체 형식을 지님
+            - files 속성 : input 태그에 multiple이 지정되어 있는 경우 여러 파일이 선택될 수 있기 때문에 배열 형태를 지님
+             */
+            const imgobj = $("#image")[0].files[0];
+
+            /*
+            FormData 객체
+            - AJAX를 통해 multipart/form-data 형식의 데이터를 전송할 수 있도록 지원하는 객체
+             */
+            const url = "view/feedAdd.jsp";
+            const params = new FormData();
+
+            params.append("id", id);
+            params.append("content", content);
+            if (imgobj != null)
+                params.append("image", imgobj);
+
+            /*
+            전달되는 데이터가 multipart/form-data 형식임을 알리기 위해 네번쨰 파라미터 true
+             */
+            AJAX.call(url, params, function(data) {
+                const code = data.trim();
+                if (code == "ER")
+                    alert("작성글 업로드 중 오류 발생!");
+                else {
+                    alert("작성글 업로드 완료!");
+                    window.location.href = "main.jsp";
+                }
+            }, true);
+        }
+    </script>
+
     <title>Title</title>
 </head>
 <body>
-  <form action="view/feedAdd.jsp" method="post" enctype="multipart/form-data">
     <div class="page-hdr">MySNS</div>
 
     <div class="page-body">
       <div class="section pad-24 mtop-30">
-        <input type="text" name="id" placeholder="Email"/>
-        <textarea name="content" class="mtop-10" placeholder="이곳에 글을 작성해주세요."></textarea>
+        <input type="text" id="id" disabled/>
+        <textarea id="content" class="mtop-10" placeholder="이곳에 글을 작성해주세요."></textarea>
         <div class="section mad-4 mtop-30">
           <div class="desc">아래에서 이미지를 선택해주세요.</div>
-          <input type="file" name="image"/>
+          <input type="file" id="image"/>
         </div>
-        <input type="submit" class="mtop-30" value="upload"/>
+        <input type="submit" class="mtop-30" value="upload" onclick="upload()"/>
       </div>
     </div>
     <div class="page-footer">Copyright: mysns.com, 202x</div>
-  </form>
 </body>
 </html>

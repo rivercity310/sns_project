@@ -37,8 +37,9 @@
                 return;
             }
 
-            const url = "view/login.jsp?id=" + id + "&ps=" + ps;
-            AJAX.call(url, null, function(data) {
+            const url = "view/login.jsp";
+            const params = { id, ps }
+            AJAX.call(url, params, function(data) {
                 const code = data.trim();
                 if (code == "NE")
                     alert("아이디가 존재하지 않습니다!");

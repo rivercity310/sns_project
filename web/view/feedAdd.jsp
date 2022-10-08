@@ -44,7 +44,7 @@
 
   FeedDAO dao = new FeedDAO();
   if (dao.insert(uid, ucon, ufname))
-    response.sendRedirect("../main.jsp");
+    out.print("OK");
   else
-    out.print("업로드 중 오류 발생");
+    out.print("ER");
 %>

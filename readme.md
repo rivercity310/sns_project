@@ -186,7 +186,7 @@ while (iter.hasNext()) {
 jQuery.ajax({
   url: "MySNS/jsp/login.jsp",
   type: "post",
-  data: { id="kim@abc.com", ps="111" },
+  data: { id: "kim@abc.com", ps: "111" },
   dataType: "text",
   success: function(msg) {
       alert(msg);
