@@ -23,7 +23,7 @@
 		str += "<td>&nbsp;(" + user.getTs() + ")</td>";
 		str += "</tr>";
 	}
-	str += "</table>"
+	str += "</table>";
 
 	out.print(str);
 %>

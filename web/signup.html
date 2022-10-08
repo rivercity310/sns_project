@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .desc {
+      float: left;
+      width: 100%;
+      color: #888;
+      font-size: 0.9em;
+    }
+  </style>
+
+  <title></title>
 </head>
 <body>
   <form action="view/signup.jsp" method="post">
-    <table align="center">
-      <tr>
-        <td colspan=2 align=center height=40>로그인</td>
-      </tr>
-      <tr>
-        <td align=right>아이디&nbsp;</td>
-        <td><input type="text" name="id" placeholder="Email Address" required/></td>
-      </tr>
-      <tr>
-        <td align=right>패스워드&nbsp;</td>
-        <td><input type="password" name="ps" required/></td>
-      </tr>
-      <tr>
-        <td align=right>패스워드(확인)&nbsp;</td>
-        <td><input type="password" name="ps2" required/></td>
-      </tr>
-      <tr>
-        <td align=right>이름&nbsp;</td>
-        <td><input type="text" name="name" required/></td>
-      </tr>
-      <tr>
-        <td colspan=2 align=center height=50>
-          <input type="submit" value="회원가입"/>
-        </td>
-      </tr>
-    </table>
+    <div class="page-hdr">MySNS</div>
+
+    <div class="page-body">
+      <div class="section pad-24 mtop-30">
+        <input type="text" name="id" placeholder="Email Address" required/>
+        <input type="password" name="ps" class="mtop-10" placeholder="Password" required/>
+        <input type="password" name="ps2" class="mtop-10" placeholder="Password Check" required />
+        <input type="text" name="name" class="mtop-10" placeholder="Name" required/>
+        <input type="submit" class="mtop-20" value="Sign up"/>
+      </div>
+
+      <div class="section pad-24 mtop-30">
+        <div class="desc mtop-20 mbot-20">
+          회원 가입시 MySNS의 약관에 동의하신 것으로 간주합니다.
+        </div>
+        <a href="signup.html"><div class="button">Show terms</div></a>
+      </div>
+    </div>
+
+    <div class="page-footer">Copyright: mysns.com, 202x</div>
+
   </form>
 </body>
 </html>

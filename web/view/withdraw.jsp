@@ -22,7 +22,7 @@
 	if (dao.delete(uid)) {
 		String str = "<p align=center>";
 		str += "<br>회원탈퇴가 완료되었습니다.<br>";
-		str += "그동안 이용햐주셔서 감사드립니다.</p>";
+		str += "그동안 이용해주셔서 감사드립니다.</p>";
 
 		out.print(str);
 		session.removeAttribute("id");
