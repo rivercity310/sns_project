@@ -1,5 +1,6 @@
 # OOP II 개인 프로젝트
-삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 간단한 웹 SNS 구현해본 클론 프로젝트입니다.
+삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 
+간단한 웹 SNS를 구현한 클론 프로젝트입니다.
 
 ---
 
@@ -154,7 +155,7 @@ while (iter.hasNext()) {
 
 ---
 
-## MVC 패턴과 AJAX
+## [ MVC 패턴과 AJAX ]
 
 ### 1. MVC
 - 사용자 인터페이스로부터 비즈니스 로직을 분리하여 모듈간 결합도를 낮추기 위한 디자인 패턴
@@ -178,7 +179,7 @@ while (iter.hasNext()) {
 - 결과 코드 생성 및 메세지 출력 부분을 클라이언트(JS)에서 처리하므로, JSP 파일에서는 out.print() 함수를 통해 서버 측 처리 결과를 간단한 코드 형태로 출력 
 ---
 
-## jQuery AJAX
+## [ jQuery AJAX ]
 
 ### 1. jQuery.ajax()
 ```javascript
@@ -205,9 +206,7 @@ jQuery.ajax({
   - dataType : 서버로부터 전송되는 데이터의 포멧 (JSON, TEXT 등)
   - success : AJAX 호출이 성공했을 때, 서버로부터 결과값을 받기 위한 함수, 함수 인자인 msg에는 서버로부터 out.print()된 출력 결과가 텍스트 형식으로 전달됨
   - error : AJAX 호출이 실패했을 때, 에러 코드나 상태 정보를 받기 위한 함수
-   
 
-- 함수 호출을 간소화하기 위해 다음과 같은 유틸리티 함수 사용
 ```javascript
 const AJAX = {
     call: (url, params, func) => {
@@ -226,4 +225,6 @@ const AJAX = {
     }
 } 
 ```
+- 함수 호출을 간소화하기 위해 위와 같은 유틸리티 함수 사용
+
 
