@@ -1,12 +1,14 @@
 # OOP II 개인 프로젝트
 삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 진행한 클론 프로젝트입니다.
 
+---
+
 ## 사용 기술
 - HTML, CSS, JavaScript를 이용한 기본 골격
-- jQuery Ajax를 이용한 비동기식 전송
+- jQuery Ajax를 이용한 비동기 전송
 - Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 구조)
 - JDBC, MySQL
-- Apache Commons Library
+- Apache Commons Library (File upload 관련)
 
 ## 프로젝트 구조
 - User 처리
