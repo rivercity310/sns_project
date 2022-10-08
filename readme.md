@@ -58,9 +58,9 @@ Connection conn = ds.getConnection();
 
 ---
 
-## [ Data Access Object, DAO ]
+## [ DAO, DTO, VO ]
 
-### 1. DAO
+### 1. DAO (Data Access Object)
 - DB 접속 기능을 공유하기 위한 Java 클래스
 - DB 접속 및 수정 코드를 DAO 클래스로 모두 이관시켜, DB 처리와 HTTP 통신 처리를 분리 => 모듈화
 - 일반적으로 테이블당 하나의 DAO 클래스   
@@ -70,7 +70,18 @@ public class UserDAO {
         public boolean insert() { // To do Sth for making INSERT Query to DB }   
         public boolean delete() { // To do sth for making DELETE Query to DB }
 }
+
 ```
+
+### 2. DTO (Data Transfer Object)
+- 계층간 데이터 전달 목적으로 사용 (Client <-> Controller <-> Service)
+- 별도 로직을 갖지 않는 순수한 데이터 객체 (getter/setter만 갖는다.)
+- 불변성을 위해 setter 대신 생성자로 데이터를 넣어주도록 하면 변조 불가능
+
+### 3. VO (Value Object)
+- DTO와 반대로 로직 포함 가능
+- 불변성을 위해 setter 대신 생성자 사용
+- VO는 서로 다른 인스턴스라도 모든 속성 값이 같다면 두 인스턴스는 같은 객체인 것이 핵심
 
 ---
 
