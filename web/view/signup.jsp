@@ -13,25 +13,20 @@
 	request.setCharacterEncoding("utf-8");
 
 	String uid = request.getParameter("id");
-	String upass = request.getParameter("ps");
-	String upass2 = request.getParameter("ps2");
-	String uname = request.getParameter("name");
+	String jsonstr = request.getParameter("jsonstr");
 
-	if (upass.equals(upass2)) {
-		UserDAO dao = new UserDAO();
-		if (dao.exists(uid)) {
-			out.print("이미 가입한 회원입니다.");
-			return;
-		}
+	UserDAO dao = new UserDAO();
+	if (dao.exists(uid)) {
+		out.print("EX");
+		return;
+	}
 
-		if (dao.insert(uid, upass, uname)) {
-			session.setAttribute("id", uid);
-			response.sendRedirect("../main.jsp");
-		}
+	if (dao.insert(uid, jsonstr)) {
+		session.setAttribute("id", uid);
+		out.print("OK");
 	}
 	else {
-		out.print("확인 비밀번호가 다릅니다.");
-		return;
+		out.print("ER");
 	}
 
 %>

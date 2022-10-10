@@ -183,21 +183,37 @@ while (iter.hasNext()) {
 
 ### 1. jQuery.ajax()
 ```javascript
-jQuery.ajax({
-  url: "MySNS/jsp/login.jsp",
-  type: "post",
-  data: { id: "kim@abc.com", ps: "111" },
-  dataType: "text",
-  success: function(msg) {
-      alert(msg);
-  },
-  error: function(xhr, status, error) {
-      if (xhr.status == 0)
+const AJAX = {
+  call: (url, params, func, isfd) => {
+    const callobj = {
+      url: url,
+      type: "post",
+      data: params,
+      dataType: "text",
+      success: func,
+      error: (xhr, status, error) => {
+        if (xhr.status == 0)
           alert("네트워크 접속이 원활하지 않습니다.");
-      else 
+        else {
           console.log(xhr.responseText);
+          alert("에러 발생!");
+        }
+      }
+    };
+
+    /*
+    파일 업로드를 위해 multipart/form-data 형식으로 파라미터를 전송
+    - processData : 주어진 파라미터가 이름-값 쌍의 리스트로 표현된 쿼리 스트링 형식으로 전달, default는 True
+    - contentType : HTTP 요청의 인코딩 타입 설정, default는 True이며 이 경우 'application/www-form-urlencoded'로 설정
+     */
+    if (isfd) {
+      callobj.processData = false;
+      callobj.contentType = false;
+    }
+
+    jQuery.ajax(callobj);
   },
-});
+};
 ```
 - Params
   - url : AJAX를 통해 호출될 URL 지정
@@ -207,24 +223,52 @@ jQuery.ajax({
   - success : AJAX 호출이 성공했을 때, 서버로부터 결과값을 받기 위한 함수, 함수 인자인 msg에는 서버로부터 out.print()된 출력 결과가 텍스트 형식으로 전달됨
   - error : AJAX 호출이 실패했을 때, 에러 코드나 상태 정보를 받기 위한 함수
 
-```javascript
-const AJAX = {
-    call: (url, params, func) => {
-        const callobj = {
-            url: url,
-            type: "post",
-            data: params,
-            dataType: "text",
-            success: func,
-            error: (xhr, status, error) => {
-                // To do sth
-            }
-        }
-        
-        jQuery.ajax(callobj);
+---
+
+## [ JSON ]
+### 1. XML에 비해 쉬운 뭄법과 빠른 처리 속도로 인해 클라이언트와 서버 간 전송되는 메세지를 표현하는데 적합
+
+### 2. [JSON.simple](https://code.google.com/archive/p/json-simple/downloads) 
+- 라이브러리를 이용해서 Java에서 데이터를 JSON 형식으로 인코딩(서버 측), 디코딩(클라이언트 측)
+- UserDAO 클래스의 getList() 함수에서 ArrayList는 JSONArray로, UserObj는 JSONObject로 대체
+- 클라이언트 측에서는 JSON.parse()를 통해 userList.jsp로부터 AJAX 전달된 데이터를 Javascript의 JSON 객체로 변환 (디코딩)
+```java
+JSONArray users = new JSONArray();
+    while (rs.next()) {
+        JSONObject obj = new JSONObject();
+
+        obj.put("id", rs.getString("id"));
+        obj.put("name", rs.getString("name"));
+        obj.put("ts", rs.getString("ts"));
+
+        users.add(obj);
     }
-} 
+    
+    // 현재 배열의 내용을 String 형태로 변환한 후 리턴
+    return users.toJSONString();
+}
 ```
-- 함수 호출을 간소화하기 위해 위와 같은 유틸리티 함수 사용
 
+### 3. DB에 JSON 객체를 통합하여 저장 (jsonstr)
+- JSON 라이브러리를 이용하지 않으므로 메모리 절약, 수행 속도 향상
+- 새로운 속성 값이 추가되더라도 테이블 구조에 영향이 없으므로 코드 수정이 필요 없음
+```java
+String str = "[";
+    int cnt = 0;
+    while (rs.next()) {
+        if (cnt++ > 0) str += ", ";
+        str += rs.getString("jsonstr");
+    }
+    
+return str + "]";
+```
 
+### 4. JSONParser
+- rs.getString()으로 얻어진 스트링을 JSON 객체 형식(JSONObject or JSONArray)으로 변환
+- parse 함수는 예외시 ParseException을 던짐
+
+```java
+String jsonstr = rs.getString("jsonstr");
+JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
+String 
+```

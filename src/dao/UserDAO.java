@@ -1,5 +1,9 @@
 package dao;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import util.ConnectionPool;
 
 import javax.naming.NamingException;
@@ -7,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /*
 1. Class.forName("com.mysql.cj.jdbc.Driver")
@@ -39,20 +42,18 @@ import java.util.ArrayList;
  */
 
 public class UserDAO {
-    public boolean insert(String uid, String upass, String uname) throws NamingException, SQLException {
+    public boolean insert(String uid, String jsonstr) throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
-            String sql = "INSERT INTO user(id, password, name) VALUES(?, ?, ?)";
+            String sql = "INSERT INTO user(id, jsonstr) VALUES(?, ?)";
 
             conn = ConnectionPool.get();
             stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, uid);
-            stmt.setString(2, upass);
-            stmt.setString(3, uname);
-
+            stmt.setString(2, jsonstr);
             int count = stmt.executeUpdate();
 
             return count == 1 ? true : false;
@@ -107,13 +108,13 @@ public class UserDAO {
         }
     }
 
-    public int login(String uid, String upass) throws NamingException, SQLException {
+    public int login(String uid, String upass) throws NamingException, SQLException, ParseException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT id, password FROM user WHERE id = ?";
+            String sql = "SELECT jsonstr FROM user WHERE id = ?";
 
             conn = ConnectionPool.get();
             stmt = conn.prepareStatement(sql);
@@ -121,8 +122,19 @@ public class UserDAO {
 
             rs = stmt.executeQuery();
 
-            if (!rs.next()) return 1;
-            if (!upass.equals(rs.getString("password"))) return 2;
+            if (!rs.next())
+                return 1;
+
+            /*
+            [ JSONParser 클래스 ]
+            - rs.getString()으로 얻어진 스트링을 JSON 객체 형식(JSONObject or JSONArray)으로 변환
+            - parse 함수는 예외시 ParseException을 던짐
+            */
+            String jsonstr = rs.getString("jsonstr");
+            JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
+            String password = obj.get("password").toString();
+
+            if (!upass.equals(password)) return 2;
             return 0;
 
         }
@@ -133,28 +145,26 @@ public class UserDAO {
         }
     }
 
-    public ArrayList<UserObj> getList() throws NamingException, SQLException {
+    public String getList() throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT * FROM user ORDER BY ts DESC";
+            String sql = "SELECT jsonstr FROM user";
 
             conn = ConnectionPool.get();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
-            ArrayList<UserObj> users = new ArrayList<UserObj>();
+            String str = "[";
+            int cnt = 0;
             while (rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String ts = rs.getString("ts");
-
-                users.add(new UserObj(id, name, ts));
+                if (cnt++ > 0) str += ", ";
+                str += rs.getString("jsonstr");
             }
 
-            return users;
+            return str + "]";
         }
         finally {
             if (rs != null) rs.close();
