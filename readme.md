@@ -5,10 +5,11 @@
 ---
 
 ## 사용 기술
-- HTML, CSS, JavaScript를 이용한 기본 골격
+- HTML, CSS, JavaScript
 - Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 패턴)
-- Ajax와 JSON을 통한 비동기 전송
+- Ajax와 JSON을 통한 비동기 전송 (MVC 패턴의 서버 중심 처리방식 단점 개선)
 - Apache Commons Library (File upload 관련)
+- JSON.simple Library (JSON 처리 관련)
 
 ## 프로젝트 구조
 - User 처리
@@ -270,5 +271,5 @@ return str + "]";
 ```java
 String jsonstr = rs.getString("jsonstr");
 JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
-String 
+String password = obj.get("password").toString();
 ```
