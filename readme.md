@@ -7,7 +7,7 @@
 ## 사용 기술
 - HTML, CSS, JavaScript
 - Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 패턴)
-- Ajax와 JSON을 통한 비동기 전송 (MVC 패턴의 서버 중심 처리방식 단점 개선)
+- Ajax와 JSON을 통한 비동기 전송 (MVC 패턴의 서버 중심 처리방식의 단점 개선)
 - Apache Commons Library (File upload 관련)
 - JSON.simple Library (JSON 처리 관련)
 
@@ -69,13 +69,20 @@
 - 성능 개선을 위해 일정 개수의 Connection 객체를 미리 생성한 다음 사용자가 요청할 때마다 가용한 객체를 할당
 - 톰캣 컨테이너에서 제공하며, javax.sql.DataSource 인터페이스를 통해 접근가능
 - DataSource는 JNDI(Java Naming and Directory Interface)를 통해 호출 가능
-- 데이터베이스 연동에 필요한 URL이나 커넥션 개수 등의 파라미터들은 context.xml에서 정의
+- 데이터베이스 연동에 필요한 URL이나 커넥션 개수 등의 파라미터들은 context.xml(META-INF)에서 정의
 
 ### 1. 구조
 ```java
-Context ctx = new InitialContext();
-DataSource ds = (DataSource)ctx.lookup("java:comp/env/");
-Connection conn = ds.getConnection();
+public class ConnectionPool {
+  private static DataSource _ds = null;
+
+  public static Connection get() throws NamingException, SQLException {
+    if (_ds == null)
+      _ds = (DataSource)(new InitialContext()).lookup("java:comp/env/jdbc/mysns");
+
+    return _ds.getConnection();
+  }
+}
 ```
 - JNDI에서는 InitialContext 클래스의 lookup() 함수를 통해 <Resource> 태그로 등록된 자원을 찾도록 지원
 - 찾고자 하는 자원의 이름 앞에 "java:comp/env/"를 추가하여 lookup() 함수의 파라미터로 전달
@@ -177,7 +184,8 @@ while (iter.hasNext()) {
 - html 파일의 form 태그 제거 (required 속성 작동 안함) 
 - submit의 onclick 속성값으로 ajax 함수 등록 
 - 별도의 입력값 검사 로직을 작성해주어야 함
-- 결과 코드 생성 및 메세지 출력 부분을 클라이언트(JS)에서 처리하므로, JSP 파일에서는 out.print() 함수를 통해 서버 측 처리 결과를 간단한 코드 형태로 출력 
+- 결과 코드 생성 및 메세지 출력 부분을 클라이언트(JS)에서 처리하므로, JSP 파일에서는 out.print() 함수를 통해 서버 측 처리 결과를 간단한 코드 형태로 출력
+  (out.print()의 내용이 ajax success에 등록된 함수의 파라미터 msg로 전달)
 ---
 
 ## [ jQuery AJAX ]
@@ -235,18 +243,18 @@ const AJAX = {
 - 클라이언트 측에서는 JSON.parse()를 통해 userList.jsp로부터 AJAX 전달된 데이터를 Javascript의 JSON 객체로 변환 (디코딩)
 ```java
 JSONArray users = new JSONArray();
-    while (rs.next()) {
-        JSONObject obj = new JSONObject();
+while (rs.next()) {
+    JSONObject obj = new JSONObject();
 
-        obj.put("id", rs.getString("id"));
-        obj.put("name", rs.getString("name"));
-        obj.put("ts", rs.getString("ts"));
+    obj.put("id", rs.getString("id"));
+    obj.put("name", rs.getString("name"));
+    obj.put("ts", rs.getString("ts"));
 
-        users.add(obj);
-    }
-    
-    // 현재 배열의 내용을 String 형태로 변환한 후 리턴
-    return users.toJSONString();
+    users.add(obj);
+}
+
+// 현재 배열의 내용을 String 형태로 변환한 후 리턴
+return users.toJSONString();
 }
 ```
 
@@ -255,17 +263,17 @@ JSONArray users = new JSONArray();
 - 새로운 속성 값이 추가되더라도 테이블 구조에 영향이 없으므로 코드 수정이 필요 없음
 ```java
 String str = "[";
-    int cnt = 0;
-    while (rs.next()) {
-        if (cnt++ > 0) str += ", ";
-        str += rs.getString("jsonstr");
-    }
-    
+int cnt = 0;
+while (rs.next()) {
+    if (cnt++ > 0) str += ", ";
+    str += rs.getString("jsonstr");
+}
+
 return str + "]";
 ```
 
 ### 4. JSONParser
-- rs.getString()으로 얻어진 스트링을 JSON 객체 형식(JSONObject or JSONArray)으로 변환
+- rs.getString()으로 얻어진 스트링을 JSON 객체 형식(JSONObject)으로 변환
 - parse 함수는 예외시 ParseException을 던짐
 
 ```java
