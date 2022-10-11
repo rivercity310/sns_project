@@ -1,5 +1,8 @@
 package dao;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import util.ConnectionPool;
 
 import javax.naming.NamingException;
@@ -7,25 +10,40 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class FeedDAO {
-    public boolean insert(String uid, String ucon, String uimages) throws NamingException, SQLException {
+    public boolean insert(String jsonstr) throws NamingException, SQLException, ParseException {
         Connection conn = null;
-        PreparedStatement stmt = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
         try {
-            String sql = "INSERT INTO feed(id, content, images) VALUES(?, ?, ?)";
+            synchronized (this) {
+                conn = ConnectionPool.get();
 
-            conn = ConnectionPool.get();
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, uid);
-            stmt.setString(2, ucon);
-            stmt.setString(3, uimages);
+                String sql = "SELECT no FROM feed ORDER BY no DESC LIMIT 1";
+                pstmt = conn.prepareStatement(sql);
+                rs = pstmt.executeQuery();
 
-            int count = stmt.executeUpdate();
-            return count == 1 ? true : false;
+                int max = !rs.next() ? 0 : rs.getInt("no");
+                pstmt.close();
 
-        }
-        finally {
-            if (stmt != null) stmt.close();
+
+
+                JSONObject jsonobj = (JSONObject)(new JSONParser()).parse(jsonstr);
+                jsonobj.put("no", max + 1);
+
+                sql = "INSERT INTO feed(no, id, jsonstr) VALUES (?, ?, ?)";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, max + 1);
+                pstmt.setString(2, jsonobj.get("id").toString());
+                pstmt.setString(3, jsonobj.toJSONString());
+
+                int count = pstmt.executeUpdate();
+                return count == 1;
+            }
+
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
             if (conn != null) conn.close();
         }
     }

@@ -253,8 +253,8 @@ while (rs.next()) {
     users.add(obj);
 }
 
-// 현재 배열의 내용을 String 형태로 변환한 후 리턴
-return users.toJSONString();
+  // 현재 배열의 내용을 String 형태로 변환한 후 리턴
+  return users.toJSONString();
 }
 ```
 
@@ -280,4 +280,44 @@ return str + "]";
 String jsonstr = rs.getString("jsonstr");
 JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
 String password = obj.get("password").toString();
+```
+
+--- 
+
+## [ 상호 배제 (Mutual Exclusion) ]
+두 사용자가 작성글을 동시에 업로드하는 경우 feedAdd.jsp 스레드가 동시에 실행,   
+만약 이 과정중 feedDAO.insert()가 병렬적으로 수행된다면 레코드의 no 값이 똑같아질 수 있는 위험이 있음   
+오류, 버그의 원인이므로 synchronized(this) 구문으로 묶어 한 스레드가 점거하는 동안 다른 스레드의 접근을 막아야 함   
+   
+```java
+public boolean insert(String jsonstr) throws NamingException, SQLException, ParseException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            synchronized (this) {
+                conn = ConnectionPool.get();
+
+                String sql = "SELECT no FROM feed ORDER BY no DESC LIMIT 1";
+                pstmt = conn.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                int max = !rs.next() ? 0 : rs.getInt("no");
+                pstmt.close();
+                
+                JSONObject jsonobj = (JSONObject)(new JSONParser()).parse(jsonstr);
+                jsonobj.put("no", max + 1);
+
+                sql = "INSERT INTO feed(no, id, jsonstr) VALUES (?, ?, ?)";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, max + 1);
+                pstmt.setString(2, jsonobj.get("id").toString());
+                pstmt.setString(3, jsonobj.toJSONString());
+
+                int count = pstmt.executeUpdate();
+                return count == 1;
+            }
+    // ...
+}
 ```

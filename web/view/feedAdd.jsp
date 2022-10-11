@@ -16,7 +16,10 @@
 <%
   request.setCharacterEncoding("utf-8");
 
-  String uid = null, ucon = null, ufname = null;
+  /* jsonstr로 통합*/
+  // String uid = null, ucon = null, ufname = null;
+  String jsonstr = null;
+  String ufname = null;
   byte[] ufile = null;
 
   ServletFileUpload sfu = new ServletFileUpload(new DiskFileItemFactory());
@@ -29,8 +32,9 @@
 
     if (item.isFormField()) {
       String value = item.getString("utf-8");
-      if (name.equals("id")) uid = value;
-      else if (name.equals("content")) ucon = value;
+      // if (name.equals("id")) uid = value;
+      // else if (name.equals("content")) ucon = value;
+      if (name.equals("jsonstr")) jsonstr = value;
     }
     else {
       if (name.equals("image")) {
@@ -43,8 +47,8 @@
   }
 
   FeedDAO dao = new FeedDAO();
-  if (dao.insert(uid, ucon, ufname))
-    out.print("OK");
+  if (dao.insert(jsonstr))
+    out.print("OK");    // response.sendRedirect("main.jsp");
   else
     out.print("ER");
 %>
