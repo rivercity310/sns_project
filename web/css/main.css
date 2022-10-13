@@ -1,0 +1,14 @@
+.page-mnu {
+    float: left;
+    width: 100%;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.page-mnu .menu {
+    float: left;
+    padding: 0px 10px;
+    font-size: 0.95em;
+}

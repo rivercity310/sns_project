@@ -1,10 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script src="js/core.js"></script>
 </head>
 <body>
+    <div class="page-hdr">MySNS</div>
+    <div class="page-body">
+        <div class="page-mnu">
+            <div class="menu" onclick="addFeed()">글쓰기</div>
+            <div class="menu" onclick="">친구보기</div>
+            <div class="menu" onclick="">내정보</div>
+        </div>
 
+        <table id="list" class="section mtop-20 pad-16"></table>
+
+        <div class="section mtop-10 mbot-30 pad-16">
+            <div class="button" onclick="getNext()">작성글 더보기</div>
+        </div>
+    </div>
 </body>
 </html>
+
+<script>
+    $(document).ready(() => {
+        Page.init(start);
+    });
+
+    let minNo = -1;
+    function start(uid) {
+        AJAX.call("view/feedGetGroup.jsp", null, function(data) {
+            const feeds = JSON.parse(data.trim());
+            if (feeds.length > 0)
+                minNo = feeds[feeds.length - 1].no;
+
+            show(feeds);
+        })
+    }
+
+    function show(feeds) {
+        let str = "";
+        for (let i = 0; i < feeds.length; i++) {
+            const img = feeds[i].images;
+            let imgstr = "";
+
+            if (img != null)
+                imgstr += "<img src='images/" + img + "' width=100%>";
+
+            let name = feeds[i].id;
+            if (feeds[i].user != null)
+                name = feeds[i].user.name;
+
+            str += "<tr>";
+            str += "<td><small>" + name + "</small></td>";
+            str += "<td><small>&nbsp;(" + feeds[i].ts + ")</small></td>";
+            str += "</tr>";
+            str += "<tr><td colspan=2>" + imgstr + "</td></tr>";
+            str += "<tr><td colspan=2>" + feeds[i].content + "</td></tr>";
+            str += "<tr><td colspan=2 height=40><hr></td></tr>";
+        }
+
+        $("#list").append(str);
+    }
+
+    function getNext() {
+        const params = { maxNo: minNo };
+        AJAX.call("view/feedGetGroup.jsp", params, function(data) {
+            const feeds = JSON.parse(data.trim());
+            if (feeds.length > 0)
+                minNo = feeds[feeds.length - 1].no;
+
+            show(feeds);
+        });
+    }
+
+    function addFeed() {
+        window.location.href = "feedAdd.html";
+    }
+</script>
