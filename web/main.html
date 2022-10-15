@@ -20,9 +20,7 @@
             <div class="menu" onclick="">친구보기</div>
             <div class="menu" onclick="">내정보</div>
         </div>
-
-        <table id="list" class="section mtop-20 pad-16"></table>
-
+        <div id="list" class="section"></div>
         <div class="section mtop-10 mbot-30 pad-16">
             <div class="button" onclick="getNext()">작성글 더보기</div>
         </div>
@@ -48,27 +46,30 @@
 
     function show(feeds) {
         let str = "";
-        for (let i = 0; i < feeds.length; i++) {
-            const img = feeds[i].images;
-            let imgstr = "";
-
-            if (img != null)
-                imgstr += "<img src='images/" + img + "' width=100%>";
-
-            let name = feeds[i].id;
-            if (feeds[i].user != null)
-                name = feeds[i].user.name;
-
-            str += "<tr>";
-            str += "<td><small>" + name + "</small></td>";
-            str += "<td><small>&nbsp;(" + feeds[i].ts + ")</small></td>";
-            str += "</tr>";
-            str += "<tr><td colspan=2>" + imgstr + "</td></tr>";
-            str += "<tr><td colspan=2>" + feeds[i].content + "</td></tr>";
-            str += "<tr><td colspan=2 height=40><hr></td></tr>";
-        }
+        for (let i = 0; i < feeds.length; i++)
+            str += getFeedCode(feeds[i]);
 
         $("#list").append(str);
+    }
+
+    function getFeedCode(feed) {
+        const name = feed.user == null ? feed.id : feed.user.name;
+
+        let str = "<div class='feed'>";
+        str += "<div class='author'>";
+        str += "<div class='photo'></div>";
+        str += "<div class='name'>" + name + "</div>";
+        str += "</div>";
+
+        if (feed.images != null) {
+            const imgurl = "images/" + feed.images[0];
+            str += "<div class='image' style='background-image: url(\"" + imgurl + "\")'></div>";
+        }
+
+        str += "<div class='text'>" + feed.content + "</div>";
+        str += "</div>";
+
+        return str;
     }
 
     function getNext() {
