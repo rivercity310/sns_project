@@ -71,7 +71,7 @@
     function getFeedCode(feed) {
         const name = feed.user == null ? feed.id : feed.user.name;
 
-        let str = "<div class='feed'>";
+        let str = "<div class='feed' onclick='showFeed(" + feed.no + ")'>";
         str += "<div class='author'>";
         str += "<div class='photo'></div>";
         str += "<div class='name'>" + name + "</div>";
@@ -86,6 +86,15 @@
         str += "</div>";
 
         return str;
+    }
+
+    function showFeed(fno) {
+        for (let i = 0; i < feedList.length; i++) {
+            if (feedList[i].no == fno) {
+                Page.go("feedView.html", feedList[i]);
+                return;
+            }
+        }
     }
 
     function getNext() {

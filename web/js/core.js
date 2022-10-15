@@ -31,7 +31,7 @@ const AJAX = {
 };
 
 const Page = {
-    init: function(cbfunc) {
+    init: function(cbfunc, url) {
         AJAX.call("view/session.jsp", null, function(data) {
             const uid = data.trim();
             if (uid == "null") {
@@ -39,11 +39,17 @@ const Page = {
                 window.location.href = "login.html";
             }
             else {
+                const param = (url == null) ? null : SessionStore.get(url);
                 if (cbfunc != null)
-                    cbfunc(uid);
+                    cbfunc(uid, param);
             }
         });
     },
+
+    go: function(url, param) {
+        SessionStore.set(url, param);
+        window.location.href = url;
+    }
 };
 
 const SessionStore = {
