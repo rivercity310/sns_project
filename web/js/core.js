@@ -45,3 +45,43 @@ const Page = {
         });
     },
 };
+
+const SessionStore = {
+    set: function(name, val) {
+        sessionStorage.setItem(name, JSON.stringify(val));
+    },
+
+    get: function(name) {
+        const str = sessionStorage.getItem(name);
+        return (str == null || str == "null") ? null : JSON.parse(str);
+    },
+
+    remove: function(name) {
+        sessionStorage.removeItem(name);
+    }
+}
+
+const DataCache = {
+    set: function(name, data) {
+        const obj = { ts: Date.now(), data: data };
+        SessionStore.set(name, obj);
+    },
+
+    get: function(name) {
+        const obj = SessionStore.get(name);
+        if (obj == null)
+            return null;
+
+        const diff = (Date.now() - obj.ts) / 60000;
+        if (diff > 10) {
+            SessionStore.remove(name);
+            return null;
+        }
+
+        return obj.data;
+    },
+
+    remove: function(name) {
+        SessionStore.remove(name);
+    }
+}

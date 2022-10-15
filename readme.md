@@ -321,3 +321,83 @@ public boolean insert(String jsonstr) throws NamingException, SQLException, Pars
     // ...
 }
 ```
+
+---
+
+## [ Storage ]
+기존에는 클라이언트 측에 데이터를 저장하기 위해 캐시(Cache)를 사용 (4kb)   
+부족한 저장 공간과 HTTP 요청시 서버에 함께 전달된다는 단점때문에 불필요한 네트워크 전송을 야기함
+   
+HTML5에서는 이러한 문제를 해결하기 위해 이름-값 쌍의 형태로 데이터를 저장, 추출할 수 있는
+Local Storage와 Session Storage를 제공
+   
+- Cache
+  - 저장용량: 4KB
+  - 이름-값 형태로 데이터 저장, 추출
+  - HTTP 요청시 내용이 함께 전달됨
+- Local Storage
+  - 저장용량: 5MB 이상
+  - 이름-값 형태로 데이터 저장, 추출
+  - 사용자가 지우지 않는 한 계속 유지됨
+- Session Storage
+  - 저장용량: 5MB 이상
+  - 이름-값 형태로 데이터 저장, 추출
+  - 브라우저를 닫을 때 삭제됨
+
+### 1. Storage의 목적
+- 데이터 캐싱: 하나의 HTML 페이지에서 데이터를 일정 시간동안 저장 => 해당 시간 내에는
+서버로부터 데이터를 가져오지 않고, 임시 저장된 데이터를 이용
+- 데이터 공유: 2개 이상의 HTML 페이지에서 데이터를 공유 => 하나의 페이지에서 다른 페이지를 호출할 때 공유할 데이터를 파라미터 형식으로 전달하도록 구현
+
+### 2. 구현
+데이터 임시 저장이라는 측면에서 볼때 세션 스토리지를 이용하는 것이 바람직하다.   
+JavaScript의 sessionStorage 객체를 통해 접근 가능하며 
+setItem(), getItem(), removeItem() 메서드를 이용하여 데이터 저장, 접근 및 삭제 가능
+   
+```javascript
+/* 
+세션 스토리지를 이용할 경우 항상 스트링 형태로 입력되어야 한다.
+따라서 JSON 객체 형식으로 데이터를 저장하고 반환할 수 있도록 다음과 같이 구성한다.
+*/ 
+const SessionStore = {
+    set: function(name, val) {
+        sessionStorage.setItem(name, JSON.stringify(val));
+    },
+    
+    get: function(name) {
+        const str = sessionStorage.getItem(name);
+        return (str == null || str == "null") ? null : JSON.parse(str);
+    },
+    
+    remove: function(name) {
+        sessionStorage.removeItem(name);
+    }
+}
+```
+
+### 3. 데이터 캐싱
+위에서 작성한 SessionStore 객체를 이용하여, 세션 스토리지에 저장되는 데이터의
+유효 기간을 설정하고 체크하기 위한 로직을 추가한 DataCache 객체
+
+```javascript
+const DataCache = {
+    set: function(name, data) {
+        const obj = { ts: Date.now(), data: data };
+        SessionStore.set(name, obj);
+    },
+
+    get: function(name) {
+        const obj = SessionStore.get(name);
+        if (obj == null)
+            return null;
+
+        const diff = (Date.now() - obj.ts) / 60000;
+        if (diff > 10) {
+            SessionStore.remove(name);
+            return null;
+        }
+
+        return obj.data;
+    }
+}
+```

@@ -116,6 +116,7 @@
                     alert("작성글 업로드 중 오류 발생!");
                 else {
                     alert("작성글 업로드 완료!");
+                    DataCache.remove("mainCache");
                     window.location.href = "main.html";
                 }
             }, true);

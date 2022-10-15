@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="css/core.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/main.css">
-
-    <script src="js/jquery-3.6.1.min.js"></script>
-    <script src="js/core.js"></script>
 </head>
 <body>
     <div class="page-hdr">MySNS</div>
@@ -27,24 +24,43 @@
     </div>
 </body>
 </html>
-
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/core.js"></script>
 <script>
     $(document).ready(() => {
         Page.init(start);
     });
 
     let minNo = -1;
-    function start(uid) {
-        AJAX.call("view/feedGetGroup.jsp", null, function(data) {
-            const feeds = JSON.parse(data.trim());
-            if (feeds.length > 0)
-                minNo = feeds[feeds.length - 1].no;
+    let feedList = [];
 
+    function start(uid) {
+        const feeds = DataCache.get("mainCache");
+        if (feeds != null) {
+            console.log("[start] fetch the existing feed list from DataCache");
+            console.log(feeds);
+
+            feedList = feeds;
             show(feeds);
-        })
+        }
+        else {
+            AJAX.call("view/feedGetGroup.jsp", null, function(data) {
+                const feeds = JSON.parse(data.trim());
+                console.log("[start] fetch a new feed list from the server");
+                console.log(feeds);
+
+                feedList = feeds;
+                DataCache.set("mainCache", feeds);
+                show(feeds);
+            })
+        }
     }
 
     function show(feeds) {
+        // set minNo to detect the end of the list
+        if (feeds.length > 0)
+            minNo = feeds[feeds.length - 1].no;
+
         let str = "";
         for (let i = 0; i < feeds.length; i++)
             str += getFeedCode(feeds[i]);
@@ -76,8 +92,8 @@
         const params = { maxNo: minNo };
         AJAX.call("view/feedGetGroup.jsp", params, function(data) {
             const feeds = JSON.parse(data.trim());
-            if (feeds.length > 0)
-                minNo = feeds[feeds.length - 1].no;
+            feedList = feedList.concat(feeds);
+            DataCache.set("mainCache", feedList);
 
             show(feeds);
         });
