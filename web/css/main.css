@@ -11,6 +11,7 @@
     float: left;
     padding: 0px 10px;
     font-size: 0.95em;
+    cursor: pointer;
 }
 
 .feed {

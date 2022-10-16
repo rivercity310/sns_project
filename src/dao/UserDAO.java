@@ -172,4 +172,48 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
+
+    /* 파라미터로 전달받은 uid 값과 동일한 아이디를 지닌 사용자 정보를 user 테이블로부터 추출 후 반환 */
+    public String get(String uid) throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT jsonstr FROM user WHERE id = ?";
+
+            conn = ConnectionPool.get();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, uid);
+            rs = pstmt.executeQuery();
+
+            return rs.next() ? rs.getString("jsonstr") : "{}";
+        }
+        finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    public boolean update(String uid, String jsonstr) throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            String sql = "UPDATE user SET jsonstr = ? WHERE id = ?";
+
+            conn = ConnectionPool.get();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, jsonstr);
+            pstmt.setString(2, uid);
+
+            int cnt = pstmt.executeUpdate();
+            return cnt == 1;
+        }
+        finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
+        }
+    }
 }

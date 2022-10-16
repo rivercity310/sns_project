@@ -14,8 +14,8 @@
     <div class="page-body">
         <div class="page-mnu">
             <div class="menu" onclick="addFeed()">글쓰기</div>
-            <div class="menu" onclick="">친구보기</div>
-            <div class="menu" onclick="">내정보</div>
+            <div class="menu" onclick="showFriends()">친구보기</div>
+            <div class="menu" onclick="showUserInfo()">내정보</div>
         </div>
         <div id="list" class="section"></div>
         <div class="section mtop-10 mbot-30 pad-16">
@@ -73,14 +73,14 @@
 
         let str = "<div class='feed' onclick='showFeed(" + feed.no + ")'>";
         str += "<div class='author'>";
-        str += "<div class='photo'></div>";
+        if (feed.user == null || feed.user.images == null) {
+            str += "<div class='photo'></div>";
+        } else {
+            const imgurl = "images/" + feed.user.images[0];
+            str += "<div class='photo' style='background-image: url(\"" + imgurl + "\")'></div>";
+        }
         str += "<div class='name'>" + name + "</div>";
         str += "</div>";
-
-        if (feed.images != null) {
-            const imgurl = "images/" + feed.images[0];
-            str += "<div class='image' style='background-image: url(\"" + imgurl + "\")'></div>";
-        }
 
         str += "<div class='text'>" + feed.content + "</div>";
         str += "</div>";
@@ -110,5 +110,13 @@
 
     function addFeed() {
         window.location.href = "feedAdd.html";
+    }
+
+    function showFriends() {
+        window.location.href = "friend.html";
+    }
+
+    function showUserInfo() {
+        window.location.href = "userInfo.html";
     }
 </script>

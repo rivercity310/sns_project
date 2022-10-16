@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <title>MySNS</title>
+
+    <style>
+      .pad-4 { padding: 0 4px; }
+      .pad-8 { padding: 0 8px; }
+
+      textarea {
+        float: left;
+        width: 100%;
+        height: 100px;
+        padding: 16px;
+        box-sizing: border-box;
+        font-size: 1.0em;
+        font-family: "Malgun Gothic", "Arial";
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        outline: none;
+      }
+
+      input[type=file] {
+        padding: 0px;
+        border: none;
+        outline: none;
+        font-size: 0.95em;
+      }
+
+      .desc {
+        float: left;
+        width: 100%;
+        margin-bottom: 5px;
+        font-size: 0.95em;
+        color: #888;
+      }
+    </style>
+</head>
+<body>
+  <div class="page-hdr">MySNS</div>
+  <div class="page-body">
+    <div class="page-mnu">
+      <div class="menu" onclick="goHome()">홈</div>
+      <div class="menu" onclick="logout()">로그아웃</div>
+      <div class="menu" onclick="withdraw()">회원탈퇴</div>
+    </div>
+
+    <div class="section pad-24 mtop-30">
+      <div class="section pad-8 mbot-20">
+        아이디: <span id="id"></span>
+      </div>
+      <input type="text" id="name" class="mbot-10" placeholder="이름">
+      <textarea id="desc" placeholder="간단한 소개글을 작성해주세요."></textarea>
+      <div class="section pad-4 mtop-30">
+        <div class="desc mbot-10">아래에서 이미지를 선택해주세요.</div>
+        <input type="file" id="image">
+      </div>
+      <input type="submit" class="mtop-30" value="수정하기" onclick="update()">
+    </div>
+  </div>
+  <div class="page-footer">Copyright: mysns.com, 202x</div>
+</body>
+</html>
+
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/core.js"></script>
+<script>
+  $(document).ready(function() {
+    Page.init(start);
+  })
+
+  let userObj = null;
+  function start(uid) {
+    const params = { id: uid };
+    AJAX.call("view/userGet.jsp", params, function(data) {
+      userObj = JSON.parse(data.trim());
+      setPage(userObj);
+    })
+  }
+
+  function setPage(userObj) {
+    if (userObj == null) return;
+
+    $("#id").html(userObj.id);
+    $("#name").val(userObj.name);
+    $("#desc").val(userObj.desc);
+  }
+
+  function update() {
+      const name = $("#name").val().trim();
+      if (name == "") {
+          alert("이름을 입력해주세요.");
+          $("#name").focus();
+          return;
+      }
+
+      const desc = $("#desc").val().trim();
+      const imgobj = $("#image")[0].files[0];
+      const jsonobj = userObj;
+
+      if (name != "") jsonobj.name = name;
+      if (desc != "") jsonobj.desc = desc;
+      if (imgobj != null) jsonobj.images = [imgobj.name];
+      jsonobj.ts = getTime();
+
+      const params = new FormData();
+      params.append("id", jsonobj.id);
+      params.append("jsonstr", JSON.stringify(jsonobj));
+      if (imgobj != null) params.append("image", imgobj);
+
+      const url = "view/userUpdate.jsp";
+      AJAX.call(url, params, function(data) {
+          const code = data.trim();
+          if (code == "ER")
+              alert("업데이트 중 오류 발생!");
+          else {
+              alert("사용자 정보 업데이트 완료");
+              history.back();
+          }
+      }, true);
+  }
+
+  function getTime() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = ("0" + (1 + date.getMonth())).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      const hour = ("0" + date.getHours()).slice(-2);
+      const min = ("0" + date.getMinutes()).slice(-2);
+      const sec = ("0" + date.getSeconds()).slice(-2);
+
+      return year + "-" + month + "-" + day + "-" + " " + hour + ":" + min + ":" + sec;
+  }
+
+  function goHome() {
+      window.location.href = "main.html";
+  }
+
+  function logout() {
+      AJAX.call("view/logout.jsp", null, function(data) {
+          alert("로그아웃 완료");
+          window.location.href = "login.html";
+      })
+  }
+
+  function withdraw() {
+      window.location.href = "withdraw.html";
+  }
+</script>
