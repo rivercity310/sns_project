@@ -49,11 +49,11 @@
     str += "<div class='name'>" + name + "</div>";
     str += "</div>";
 
-    str += "<div class='text2'>" + feed.content + "</div>";
     if (feed.images != null) {
       const imgstr = "images/" + feed.images[0];
-      str += "<div class='image style=background-image: url(\"" + imgstr + "\")'></div>";
+      str += "<div class='image' style='background-image: url(\"" + imgstr + "\")'></div>";
     }
+    str += "<div class='text2'>" + feed.content + "</div>";
     str += "</div>";
 
     return str;

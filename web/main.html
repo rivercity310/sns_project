@@ -82,6 +82,11 @@
         str += "<div class='name'>" + name + "</div>";
         str += "</div>";
 
+        if (feed.images != null) {
+            const imgurl = "images/" + feed.images[0];
+            str += "<div class='image' style='background-image: url(\"" + imgurl + "\")'></div>";
+        }
+
         str += "<div class='text'>" + feed.content + "</div>";
         str += "</div>";
 
