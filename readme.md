@@ -45,6 +45,7 @@
 
 --- 
 
+<br/>
 <h2 id="jdbc" style="margin-bottom:50px;">[ JDBC Func ]</h2>
 
 #### 1. Class.forName("com.mysql.cj.jdbc.Driver")
@@ -78,8 +79,11 @@
 
 #### 5. ResultSet, Statement, Connection 객체를 close() 함수를 이용해 모두 닫아주기
 
+<br/>
+
 ---
 
+<br/>
 <h2 id="conn" style="margin-bottom:50px;">[ Connection Pool ]</h2>
 
 - 성능 개선을 위해 일정 개수의 Connection 객체를 미리 생성한 다음 사용자가 요청할 때마다 가용한 객체를 할당
@@ -107,8 +111,11 @@ public class ConnectionPool {
 ### 2. static
 - lookup() 함수가 반복적으로 수행되지 않도록 get() 함수가 처음 호출될 때 한해서 함수가 실행되도록 강제
 
+<br/>
+
 ---
 
+<br/>
 <h2 id="dao" style="margin-bottom:50px;">[ DAO, DTO, VO ]</h2>
 
 ### 1. DAO (Data Access Object)
@@ -134,8 +141,11 @@ public class UserDAO {
 - 불변성을 위해 setter 대신 생성자 사용
 - VO는 서로 다른 인스턴스라도 모든 속성 값이 같다면 두 인스턴스는 같은 객체인 것이 핵심
 
+<br/>
+
 ---
 
+<br/>
 <h2 id="fu" style="margin-bottom:50px;">[ File Upload ]</h2>
 
 ### 1. enctype 속성값
@@ -177,8 +187,11 @@ while (iter.hasNext()) {
 - 서버에 일반 파일 형태로 저장한 후, 데이터베이스에는 파일의 path만 저장 (주로 이용)
 - application.getRealPath() 함수를 통해 현재 수행되고 있는 JSP 모듈의 루트 경로를 얻을 수 있음
 
+<br/>
+
 ---
 
+<br/>
 <h2 id="mvc" style="margin-bottom:50px;">[ MVC Pattern ]</h2>
 
 ### 1. MVC
@@ -248,7 +261,11 @@ const AJAX = {
   - success : AJAX 호출이 성공했을 때, 서버로부터 결과값을 받기 위한 함수, 함수 인자인 msg에는 서버로부터 out.print()된 출력 결과가 텍스트 형식으로 전달됨
   - error : AJAX 호출이 실패했을 때, 에러 코드나 상태 정보를 받기 위한 함수
 
+<br/>
+
 ---
+
+<br/>
 
 <h2 id="json" style="margin-bottom:50px;">[ JSON ]</h2>
 
@@ -299,9 +316,11 @@ JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
 String password = obj.get("password").toString();
 ```
 
+<br/>
+
 --- 
 
-
+<br/>
 <h2 id="me" style="margin-bottom:50px;">[ Mutual Exclusion ]</h2>
 
 두 사용자가 작성글을 동시에 업로드하는 경우 feedAdd.jsp 스레드가 동시에 실행,   
@@ -341,8 +360,11 @@ public boolean insert(String jsonstr) throws NamingException, SQLException, Pars
 }
 ```
 
+<br/>
+
 ---
 
+<br/>
 <h2 id="st" style="margin-bottom:50px;">[ Storage ]</h2>
 
 기존에는 클라이언트 측에 데이터를 저장하기 위해 캐시(Cache)를 사용 (4kb)   
@@ -395,8 +417,11 @@ const SessionStore = {
 }
 ```
 
+<br/>
+
 --- 
 
+<br/>
 <h2 id="dc" style="margin-bottom:50px;">[ Data Caching ]</h2>
 
 위에서 작성한 SessionStore 객체를 이용하여, 세션 스토리지에 저장되는 데이터의
