@@ -4,20 +4,31 @@
 ---
 
 ## 사용 기술
-#### - HTML, CSS, JavaScript, JavaEE, MySQL
-#### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
-#### - Apache Commons Library (File upload 관련)
-#### - JSON.simple Library (JSON 처리 관련)
+###### - HTML, CSS, JavaScript, JavaEE, MySQL
+###### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
+###### - Apache Commons Library (File upload 관련)
+###### - JSON.simple Library (JSON 처리 관련)
 
 ---
 
 ## 프로젝트 구조
-<div style="display:block;">
-  <img src="web\images\화면 캡처 2022-10-21 215157.jpg" style="float:left; width: 40%; margin-left: 10%">
-  <img src="web\images\화면 캡처 2022-10-21 215237.jpg" style="float: left; width: 40%; margin-right: 10%">
-</div>
+<img src="web\images\화면 캡처 2022-10-21 215157.jpg" style="float:left; width: 40%; margin-left: 10%">
+<img src="web\images\화면 캡처 2022-10-21 215237.jpg" style="float: left; width: 40%; margin-right: 10%">
 
----  
+
+---
+
+## 목차
+### [1. JDBC 관련 함수](#[-JDBC-관련-함수-])
+### [2. Connection Pool](#[-Connection-Pool-])
+### [3. DAO, DTO, VO](#[-DAO,-DTO,-VO-])
+### [4. File Upload](#[-File-Upload-])
+### [5. MVC와 AJAX](#[-MVC-패턴과-AJAX-])
+### [6. JSON](#[-JSON-])
+### [7. 상호 배제](#[-상호 배제-(Mutual-Exclusion)-])
+### [8. Storage & Data Caching](#[-Storage-])
+
+---
 
 # 개념 정리
 
