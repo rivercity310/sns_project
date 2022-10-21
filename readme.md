@@ -5,7 +5,7 @@
 
 <br/><br/>
 
-<h1><span style="background-color:#f1f8ff;">TECH STACK</span></h1>
+<h1><span style="color:#f1f8ff;">TECH STACK</span></h1>
 
 ###### - HTML, CSS, JavaScript, JavaEE, MySQL
 ###### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
@@ -16,7 +16,7 @@
 
 <br/><br/>
 
-<h1><span style="background-color:#f1f8ff;">PROJECT STRUCTURE</span></h1>
+<h1><span style="color:#f1f8ff;">PROJECT STRUCTURE</span></h1>
 
 <img src="web\images\1021222013241314.jpg"/>
 
@@ -24,7 +24,7 @@
 
 <br/><br/>
 
-<h1><span style="background-color:#f1f8ff;">Contents</span></h1>
+<h1><span style="color:#f1f8ff;">Contents</span></h1>
 
 ###### <a href="#jdbc" style="color: black;">1. JDBC 관련 함수</a>
 ###### <a href="#conn" style="color: black;">2. Connection Pool</a>
@@ -41,7 +41,7 @@
 
 <br/><br/>
 
-<h1><span style="background-color:#FFDCE0;">POINT</span></h1>
+<h1><span style="color:#FFDCE0;">POINT</span></h1>
 
 --- 
 
@@ -215,8 +215,12 @@ while (iter.hasNext()) {
 - 별도의 입력값 검사 로직을 작성해주어야 함
 - 결과 코드 생성 및 메세지 출력 부분을 클라이언트(JS)에서 처리하므로, JSP 파일에서는 out.print() 함수를 통해 서버 측 처리 결과를 간단한 코드 형태로 출력
   (out.print()의 내용이 ajax success에 등록된 함수의 파라미터 msg로 전달)
+
+<br/>
+
 ---
 
+<br/>
 <h2 id="jq" style="margin-bottom:50px;">[ jQuery AJAX ]</h2>
 
 ### 1. jQuery.ajax()
