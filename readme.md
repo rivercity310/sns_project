@@ -30,6 +30,16 @@
 
 ---
 
+<br/><br/><br/><br/>
+
+---
+
+
+## Point
+##### 프로젝트를 진행하며 배운 것들
+
+--- 
+
 <h2 id="jdbc" style="margin-bottom:50px;">[ JDBC Func ]</h2>
 
 #### 1. Class.forName("com.mysql.cj.jdbc.Driver")
