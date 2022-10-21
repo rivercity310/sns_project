@@ -24,7 +24,7 @@
 
 <br/><br/>
 
-<h1><span style="color:#f1f8ff;">Contents</span></h1>
+<h1><span style="color:#f1f8ff;">CONTENTS</span></h1>
 
 ###### <a href="#jdbc" style="color: black;">1. JDBC 관련 함수</a>
 ###### <a href="#conn" style="color: black;">2. Connection Pool</a>
