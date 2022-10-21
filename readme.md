@@ -1,15 +1,10 @@
 # OOP II 개인 프로젝트
-### 삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 간단한 웹 SNS를 구현해본 클론 프로젝트입니다.
+###### 삼육대학교 컴퓨터공학부 Object Oriented Programming II 강의에서 배운 내용을 토대로 간단한 웹 SNS를 구현해본 클론 프로젝트입니다.
 
----
-
-## 사용 기술
 ###### - HTML, CSS, JavaScript, JavaEE, MySQL
 ###### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
 ###### - Apache Commons Library (File upload 관련)
 ###### - JSON.simple Library (JSON 처리 관련)
-
----
 
 ## 프로젝트 구조
 <img src="web\images\1021222013241314.jpg"/>
@@ -17,21 +12,20 @@
 ---
 
 ## 목차
-### [1. JDBC 관련 함수](#jdbc-func)
-### [2. Connection Pool](#connection-pool)
-### [3. DAO, DTO, VO](#dao-dto-vo)
-### [4. File Upload](#file-upload)
-### [5. MVC Pattern](#mvc-pattern)
-### [6. jQuery AJAX](#jquery-ajax)
-### [7. JSON](#json)
-### [8. 상호 배제](#mutual-exclusion)
-### [9. Storage & Data Caching](#storage)
-### [10. Data Caching](#data-caching)
+###### <a href="#jdbc" style="color: black;">1. JDBC 관련 함수</a>
+###### <a href="#conn" style="color: black;">2. Connection Pool</a>
+###### <a href="#dao" style="color: black;">3. DAO, DTO, VO</a>
+###### <a href="#fu" style="color: black;">4. File Upload</a>
+###### <a href="#mvc" style="color: black;">5. MVC Pattern</a>
+###### <a href="#jq" style="color: black;">6. jQuery AJAX</a>
+###### <a href="#json" style="color: black;">7. JSON</a>
+###### <a href="#me" style="color: black;">8. Mutual Exclusion</a>
+###### <a href="#st" style="color: black;">9. Storage</a>
+###### <a href="#dc" style="color: black;">10. Data Caching</a>
+
 ---
 
-# 개념 정리
-
-## JDBC Func
+<h2 id="jdbc" style="margin-bottom:50px;">[ JDBC Func ]</h2>
 
 #### 1. Class.forName("com.mysql.cj.jdbc.Driver")
 - Reflection(클래스 파일을 메모리에 올리는 기능) 이 과정을 통해 DriverManager 클래스에 Driver 객체가 등록된다.
@@ -66,7 +60,7 @@
 
 ---
 
-## Connection Pool
+<h2 id="conn" style="margin-bottom:50px;">[ Connection Pool ]</h2>
 
 - 성능 개선을 위해 일정 개수의 Connection 객체를 미리 생성한 다음 사용자가 요청할 때마다 가용한 객체를 할당
 - 톰캣 컨테이너에서 제공하며, javax.sql.DataSource 인터페이스를 통해 접근가능
@@ -95,7 +89,7 @@ public class ConnectionPool {
 
 ---
 
-## DAO DTO VO
+<h2 id="dao" style="margin-bottom:50px;">[ DAO, DTO, VO ]</h2>
 
 ### 1. DAO (Data Access Object)
 - DB 접속 기능을 공유하기 위한 Java 클래스
@@ -122,7 +116,7 @@ public class UserDAO {
 
 ---
 
-## File Upload
+<h2 id="fu" style="margin-bottom:50px;">[ File Upload ]</h2>
 
 ### 1. enctype 속성값
 - application/www-form-urlencoded (default)
@@ -165,7 +159,7 @@ while (iter.hasNext()) {
 
 ---
 
-## MVC Pattern
+<h2 id="mvc" style="margin-bottom:50px;">[ MVC Pattern ]</h2>
 
 ### 1. MVC
 - 사용자 인터페이스로부터 비즈니스 로직을 분리하여 모듈간 결합도를 낮추기 위한 디자인 패턴
@@ -190,7 +184,7 @@ while (iter.hasNext()) {
   (out.print()의 내용이 ajax success에 등록된 함수의 파라미터 msg로 전달)
 ---
 
-## jQuery AJAX
+<h2 id="jq" style="margin-bottom:50px;">[ jQuery AJAX ]</h2>
 
 ### 1. jQuery.ajax()
 ```javascript
@@ -236,7 +230,8 @@ const AJAX = {
 
 ---
 
-## JSON
+<h2 id="json" style="margin-bottom:50px;">[ JSON ]</h2>
+
 ### 1. XML에 비해 쉬운 문법과 빠른 처리 속도로 인해 클라이언트와 서버 간 전송되는 메세지를 표현하는데 적합
 
 ### 2. [JSON.simple](https://code.google.com/archive/p/json-simple/downloads) 
@@ -286,7 +281,9 @@ String password = obj.get("password").toString();
 
 --- 
 
-## Mutual Exclusion
+
+<h2 id="me" style="margin-bottom:50px;">[ Mutual Exclusion ]</h2>
+
 두 사용자가 작성글을 동시에 업로드하는 경우 feedAdd.jsp 스레드가 동시에 실행,   
 만약 이 과정중 feedDAO.insert()가 병렬적으로 수행된다면 레코드의 no 값이 똑같아질 수 있는 위험이 있음   
 오류, 버그의 원인이므로 synchronized(this) 구문으로 묶어 한 스레드가 점거하는 동안 다른 스레드의 접근을 막아야 함   
@@ -326,7 +323,8 @@ public boolean insert(String jsonstr) throws NamingException, SQLException, Pars
 
 ---
 
-## Storage
+<h2 id="st" style="margin-bottom:50px;">[ Storage ]</h2>
+
 기존에는 클라이언트 측에 데이터를 저장하기 위해 캐시(Cache)를 사용 (4kb)   
 부족한 저장 공간과 HTTP 요청시 서버에 함께 전달된다는 단점때문에 불필요한 네트워크 전송을 야기함
    
@@ -379,7 +377,8 @@ const SessionStore = {
 
 --- 
 
-## Data Caching
+<h2 id="dc" style="margin-bottom:50px;">[ Data Caching ]</h2>
+
 위에서 작성한 SessionStore 객체를 이용하여, 세션 스토리지에 저장되는 데이터의
 유효 기간을 설정하고 체크하기 위한 로직을 추가한 DataCache 객체
 
