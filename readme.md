@@ -1,31 +1,20 @@
 # OOP II 개인 프로젝트
-삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 
-간단한 웹 SNS를 구현한 클론 프로젝트입니다.
+### 삼육대학교 컴퓨터공학부 Object Oriented Programming II 수업에서 배운 내용을 토대로 간단한 웹 SNS를 구현해본 클론 프로젝트입니다.
 
 ---
 
 ## 사용 기술
-- HTML, CSS, JavaScript
-- Tomcat과 JSP, Servlet을 이용한 서버 처리 (MVC 패턴)
-- Ajax와 JSON을 통한 비동기 전송 (MVC 패턴의 서버 중심 처리방식의 단점 개선)
-- Apache Commons Library (File upload 관련)
-- JSON.simple Library (JSON 처리 관련)
+#### - HTML, CSS, JavaScript, JavaEE, MySQL
+#### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
+#### - Apache Commons Library (File upload 관련)
+#### - JSON.simple Library (JSON 처리 관련)
+
+---
 
 ## 프로젝트 구조
-- User 처리
-  - 로그인: login.html -> login.jsp ->       UserDAO.java
-  - 회원가입: signup.html -> signup.jsp ->     UserDAO.java
-  - 회원탈퇴: withdraw.html -> withdraw.jsp -> UserDAO.java
-  - 로그아웃: logout.jsp -> UserDAO.java
-  - 유저 리스트 보기: userList.jsp -> UserDAO.java
-  
-- Feed 처리
-  - 피드 게시: feedAdd.html -> feedAdd.jsp -> FeedDAO.java
-  - 메인 화면: index.html -> main.jsp -> FeedDAO.java
+<img src="C:\Users\h9701\Desktop\sns_prj\화면 캡처 2022-10-21 215157.jpg">
+<img src="C:\Users\h9701\Desktop\sns_prj\화면 캡처 2022-10-21 215237.jpg">
 
-- DB 처리
-  - UserDAO.java <-> User 테이블
-  - FeedDAO.java <-> Feed 테이블
 ---  
 # 개념 정리
 
@@ -235,7 +224,7 @@ const AJAX = {
 ---
 
 ## [ JSON ]
-### 1. XML에 비해 쉬운 뭄법과 빠른 처리 속도로 인해 클라이언트와 서버 간 전송되는 메세지를 표현하는데 적합
+### 1. XML에 비해 쉬운 문법과 빠른 처리 속도로 인해 클라이언트와 서버 간 전송되는 메세지를 표현하는데 적합
 
 ### 2. [JSON.simple](https://code.google.com/archive/p/json-simple/downloads) 
 - 라이브러리를 이용해서 Java에서 데이터를 JSON 형식으로 인코딩(서버 측), 디코딩(클라이언트 측)
