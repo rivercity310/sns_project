@@ -3,7 +3,9 @@
 
 --- 
 
-<h2><span style="background-color:#f1f8ff;">TECH STACK</span></h2>
+<br/><br/>
+
+<h1><span style="background-color:#f1f8ff;">TECH STACK</span></h1>
 
 ###### - HTML, CSS, JavaScript, JavaEE, MySQL
 ###### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
@@ -12,11 +14,15 @@
 
 --- 
 
+<br/><br/>
+
 <h1><span style="background-color:#f1f8ff;">PROJECT STRUCTURE</span></h1>
 
 <img src="web\images\1021222013241314.jpg"/>
 
 ---
+
+<br/><br/>
 
 <h1><span style="background-color:#f1f8ff;">Contents</span></h1>
 
@@ -33,11 +39,9 @@
 
 ---
 
-<br/><br/><br/><br/>
+<br/><br/>
 
-
-
-<h1><span style="background-color:#f1f8ff;">POINT</span></h1>
+<h1><span style="background-color:#FFDCE0;">POINT</span></h1>
 
 --- 
 
