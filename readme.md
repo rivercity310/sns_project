@@ -12,10 +12,13 @@
 ---
 
 ## 프로젝트 구조
-<img src="web\images\화면 캡처 2022-10-21 215157.jpg">
-<img src="web\images\화면 캡처 2022-10-21 215237.jpg">
+<div style="display:block;">
+  <img src="web\images\화면 캡처 2022-10-21 215157.jpg" style="float:left; width: 40%; margin-left: 10%">
+  <img src="web\images\화면 캡처 2022-10-21 215237.jpg" style="float: left; width: 40%; margin-right: 10%">
+</div>
 
 ---  
+
 # 개념 정리
 
 ## [ JDBC 관련 함수 ]
