@@ -103,7 +103,7 @@ public class FeedDAO {
     }
 
     /* maxNo보다 작은 N개의 레코드를 반환해주는 함수 */
-    public String getGroup(String maxNo) throws NamingException, SQLException {
+    public String getGroup(String frids, String maxNo) throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -111,9 +111,9 @@ public class FeedDAO {
         int N = 3;
 
         try {
-            String sql = "SELECT jsonstr FROM feed";
+            String sql = "SELECT jsonstr FROM feed where id IN (" + frids + ")";
             if (maxNo != null)
-                sql += " WHERE no < " + maxNo;
+                sql += " AND no < " + maxNo;
             sql += " ORDER BY no DESC LIMIT " + N;
 
 

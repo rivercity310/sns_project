@@ -33,24 +33,36 @@
 
     let minNo = -1;
     let feedList = [];
+    let frIds = null;
 
     function start(uid) {
+        frIds = '"' + uid + '"';
+        AJAX.call("view/friendList.jsp", { id: uid }, function(data) {
+            const list = JSON.parse(data.trim());
+            for (let i = 0; i < list.length; i++)
+                frIds += ', "' + list[i].id + '"';
+
+            start2(uid);
+        })
+    }
+
+    function start2(uid) {
         const feeds = DataCache.get("mainCache");
         if (feeds != null) {
-            console.log("[start] fetch the existing feed list from DataCache");
+            console.log("[start] fetch the existing feed list from DataCache ... ");
             console.log(feeds);
 
             feedList = feeds;
             show(feeds);
         }
         else {
-            AJAX.call("view/feedGetGroup.jsp", null, function(data) {
+            AJAX.call("view/feedGetGroup.jsp", { frids: frIds }, function(data) {
                 const feeds = JSON.parse(data.trim());
-                console.log("[start] fetch a new feed list from the server");
+                console.log("[start] fetch a new feed list from the server ... ");
                 console.log(feeds);
 
                 feedList = feeds;
-                DataCache.set("mainCache", feeds);
+                DataCache.set("mainCache", feedList);
                 show(feeds);
             })
         }
@@ -103,7 +115,12 @@
     }
 
     function getNext() {
-        const params = { maxNo: minNo };
+        if (minNo <= 1) {
+            alert("작성글이 더이상 존재하지 않습니다.");
+            return;
+        }
+
+        const params = { frids: frIds, maxNo: minNo };
         AJAX.call("view/feedGetGroup.jsp", params, function(data) {
             const feeds = JSON.parse(data.trim());
             feedList = feedList.concat(feeds);
