@@ -12,8 +12,8 @@
 ---
 
 ## 프로젝트 구조
-<img src="C:\Users\h9701\Desktop\sns_prj\화면 캡처 2022-10-21 215157.jpg">
-<img src="C:\Users\h9701\Desktop\sns_prj\화면 캡처 2022-10-21 215237.jpg">
+<img src="web\images\화면 캡처 2022-10-21 215157.jpg">
+<img src="web\images\화면 캡처 2022-10-21 215237.jpg">
 
 ---  
 # 개념 정리
