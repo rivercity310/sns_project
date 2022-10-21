@@ -12,21 +12,19 @@
 ---
 
 ## 프로젝트 구조
-<img src="web\images\화면 캡처 2022-10-21 215157.jpg" style="float:left; width: 40%; margin-left: 10%">
-<img src="web\images\화면 캡처 2022-10-21 215237.jpg" style="float: left; width: 40%; margin-right: 10%">
-
+<img src="C:\Users\h9701\Desktop\sns_prj\web\images\1021222013241314.jpg"/>
 
 ---
 
 ## 목차
-### [1. JDBC 관련 함수](#[-JDBC-관련-함수-])
-### [2. Connection Pool](#[-Connection-Pool-])
-### [3. DAO, DTO, VO](#[-DAO,-DTO,-VO-])
-### [4. File Upload](#[-File-Upload-])
-### [5. MVC와 AJAX](#[-MVC-패턴과-AJAX-])
-### [6. JSON](#[-JSON-])
-### [7. 상호 배제](#[-상호 배제-(Mutual-Exclusion)-])
-### [8. Storage & Data Caching](#[-Storage-])
+### [1. JDBC 관련 함수](#[-jdbc-관련-함수-])
+### [2. Connection Pool](#[-connection-pool-])
+### [3. DAO, DTO, VO](#[-dao,-dto,-vo-])
+### [4. File Upload](#[-file-upload-])
+### [5. MVC와 AJAX](#[-mvc-패턴과-ajax-])
+### [6. JSON](#[-json-])
+### [7. 상호 배제](#[-상호 배제-(mutual-exclusion)-])
+### [8. Storage & Data Caching](#[-storage-])
 
 ---
 
