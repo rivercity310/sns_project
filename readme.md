@@ -12,25 +12,26 @@
 ---
 
 ## 프로젝트 구조
-<img src="C:\Users\h9701\Desktop\sns_prj\web\images\1021222013241314.jpg"/>
+<img src="web\images\1021222013241314.jpg"/>
 
 ---
 
 ## 목차
-### [1. JDBC 관련 함수](#[-jdbc-관련-함수-])
-### [2. Connection Pool](#[-connection-pool-])
-### [3. DAO, DTO, VO](#[-dao,-dto,-vo-])
-### [4. File Upload](#[-file-upload-])
-### [5. MVC와 AJAX](#[-mvc-패턴과-ajax-])
-### [6. JSON](#[-json-])
-### [7. 상호 배제](#[-상호 배제-(mutual-exclusion)-])
-### [8. Storage & Data Caching](#[-storage-])
-
+### [1. JDBC 관련 함수](#jdbc-func)
+### [2. Connection Pool](#connection-pool)
+### [3. DAO, DTO, VO](#dao-dto-vo)
+### [4. File Upload](#file-upload)
+### [5. MVC Pattern](#mvc-pattern)
+### [6. jQuery AJAX](#jquery-ajax)
+### [7. JSON](#json)
+### [8. 상호 배제](#mutual-exclusion)
+### [9. Storage & Data Caching](#storage)
+### [10. Data Caching](#data-caching)
 ---
 
 # 개념 정리
 
-## [ JDBC 관련 함수 ]
+## JDBC Func
 
 #### 1. Class.forName("com.mysql.cj.jdbc.Driver")
 - Reflection(클래스 파일을 메모리에 올리는 기능) 이 과정을 통해 DriverManager 클래스에 Driver 객체가 등록된다.
@@ -65,7 +66,7 @@
 
 ---
 
-## [ Connection Pool ]
+## Connection Pool
 
 - 성능 개선을 위해 일정 개수의 Connection 객체를 미리 생성한 다음 사용자가 요청할 때마다 가용한 객체를 할당
 - 톰캣 컨테이너에서 제공하며, javax.sql.DataSource 인터페이스를 통해 접근가능
@@ -94,7 +95,7 @@ public class ConnectionPool {
 
 ---
 
-## [ DAO, DTO, VO ]
+## DAO DTO VO
 
 ### 1. DAO (Data Access Object)
 - DB 접속 기능을 공유하기 위한 Java 클래스
@@ -121,7 +122,7 @@ public class UserDAO {
 
 ---
 
-## [ File Upload ]
+## File Upload
 
 ### 1. enctype 속성값
 - application/www-form-urlencoded (default)
@@ -164,7 +165,7 @@ while (iter.hasNext()) {
 
 ---
 
-## [ MVC 패턴과 AJAX ]
+## MVC Pattern
 
 ### 1. MVC
 - 사용자 인터페이스로부터 비즈니스 로직을 분리하여 모듈간 결합도를 낮추기 위한 디자인 패턴
@@ -189,7 +190,7 @@ while (iter.hasNext()) {
   (out.print()의 내용이 ajax success에 등록된 함수의 파라미터 msg로 전달)
 ---
 
-## [ jQuery AJAX ]
+## jQuery AJAX
 
 ### 1. jQuery.ajax()
 ```javascript
@@ -235,7 +236,7 @@ const AJAX = {
 
 ---
 
-## [ JSON ]
+## JSON
 ### 1. XML에 비해 쉬운 문법과 빠른 처리 속도로 인해 클라이언트와 서버 간 전송되는 메세지를 표현하는데 적합
 
 ### 2. [JSON.simple](https://code.google.com/archive/p/json-simple/downloads) 
@@ -285,7 +286,7 @@ String password = obj.get("password").toString();
 
 --- 
 
-## [ 상호 배제 (Mutual Exclusion) ]
+## Mutual Exclusion
 두 사용자가 작성글을 동시에 업로드하는 경우 feedAdd.jsp 스레드가 동시에 실행,   
 만약 이 과정중 feedDAO.insert()가 병렬적으로 수행된다면 레코드의 no 값이 똑같아질 수 있는 위험이 있음   
 오류, 버그의 원인이므로 synchronized(this) 구문으로 묶어 한 스레드가 점거하는 동안 다른 스레드의 접근을 막아야 함   
@@ -325,7 +326,7 @@ public boolean insert(String jsonstr) throws NamingException, SQLException, Pars
 
 ---
 
-## [ Storage ]
+## Storage
 기존에는 클라이언트 측에 데이터를 저장하기 위해 캐시(Cache)를 사용 (4kb)   
 부족한 저장 공간과 HTTP 요청시 서버에 함께 전달된다는 단점때문에 불필요한 네트워크 전송을 야기함
    
@@ -376,7 +377,9 @@ const SessionStore = {
 }
 ```
 
-### 3. 데이터 캐싱
+--- 
+
+## Data Caching
 위에서 작성한 SessionStore 객체를 이용하여, 세션 스토리지에 저장되는 데이터의
 유효 기간을 설정하고 체크하기 위한 로직을 추가한 DataCache 객체
 
