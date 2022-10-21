@@ -1,9 +1,10 @@
-# OOP II Personal Project
+# OOP II PERSONAL PROJECT
 ##### 삼육대학교 컴퓨터공학부 Object Oriented Programming II 강의에서 배운 내용을 토대로 간단한 웹 SNS를 구현해본 클론 프로젝트입니다.
 
 --- 
 
-## Tech Stack
+<h2><span style="background-color:#f1f8ff;">TECH STACK</span></h2>
+
 ###### - HTML, CSS, JavaScript, JavaEE, MySQL
 ###### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
 ###### - Apache Commons Library (File upload 관련)
@@ -11,12 +12,14 @@
 
 --- 
 
-## Project Structure
+<h1><span style="background-color:#f1f8ff;">PROJECT STRUCTURE</span></h1>
+
 <img src="web\images\1021222013241314.jpg"/>
 
 ---
 
-## Contents
+<h1><span style="background-color:#f1f8ff;">Contents</span></h1>
+
 ###### <a href="#jdbc" style="color: black;">1. JDBC 관련 함수</a>
 ###### <a href="#conn" style="color: black;">2. Connection Pool</a>
 ###### <a href="#dao" style="color: black;">3. DAO, DTO, VO</a>
@@ -34,8 +37,7 @@
 
 
 
-# Point
-##### 프로젝트를 진행하며 배운 것들
+<h1><span style="background-color:#f1f8ff;">POINT</span></h1>
 
 --- 
 
