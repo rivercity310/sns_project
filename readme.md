@@ -1,4 +1,4 @@
-# OOP II PERSONAL PROJECT
+# OOP II CLONE PROJECT
 ##### 삼육대학교 컴퓨터공학부 Object Oriented Programming II 강의에서 배운 내용을 토대로 간단한 웹 SNS를 구현해본 클론 프로젝트입니다.
 
 --- 
@@ -8,9 +8,9 @@
 <h1><span style="color:#f1f8ff;">TECH STACK</span></h1>
 
 ###### - HTML, CSS, JavaScript, JavaEE, MySQL
-###### - MVC 패턴을 구현해본 후, jQuery AJAX를 통해 서버 중심 처리방식의 단점 개선
+###### - jQuery AJAX : MVC 패턴의 서버 중심 처리방식의 단점 개선
 ###### - Apache Commons Library (File upload 관련)
-###### - JSON.simple Library (JSON 처리 관련)
+###### - JSON.Simple Library (JSON 처리 관련)
 
 --- 
 
