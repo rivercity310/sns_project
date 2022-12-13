@@ -1,0 +1,37 @@
+.section {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pad-16 { padding: 0 16px; }
+.pad-24 { padding: 0 24px; }
+.pad-32 { padding: 0 32px; }
+
+.mtop-10 { margin-top: 10px; }
+.mtop-20 { margin-top: 20px; }
+.mtop-30 { margin-top: 30px; }
+
+.mbot-10 { margin-bottom: 10px; }
+.mbot-20 { margin-bottom: 20px; }
+.mbot-30 { margin-bottom: 30px; }
+
+body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+    font-size: 16px;
+    font-family: "Malgun Gothic", "Arial";
+}
+
+.hide { display: none; }
+.show { display: block; }
+.page-msg {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #888;
+}

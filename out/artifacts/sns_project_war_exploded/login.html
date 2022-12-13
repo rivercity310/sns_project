@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .desc {
+        float: left;
+        width: 100%;
+        color: #888;
+        font-size: 0.9em;
+      }
+    </style>
+
+    <script defer src="js/jquery-3.6.1.min.js"></script>
+    <script defer src="js/core.js"></script>
+    <script>
+        function login() {
+            /*
+            ajax를 위해 form 태그 제거 => required 속성이 정상 작동하지 않으므로
+            별도의 입력값 체크 로직을 구현해야함
+            */
+            const id = $("#id").val().trim();
+            if (id == "") {
+                alert("아이디를 입력해주세요.");
+                $("#id").focus();
+                return;
+            }
+
+            const ps = $("#ps").val().trim();
+            if (ps == "") {
+                alert("패스워드를 입력해주세요.");
+                $("#ps").focus();
+                return;
+            }
+
+            const url = "view/login.jsp";
+            const params = { id, ps }
+            AJAX.call(url, params, function(data) {
+                const code = data.trim();
+                if (code == "NE")
+                    alert("아이디가 존재하지 않습니다!");
+                else if (code == "PE")
+                    alert("패스워드가 일치하지 않습니다!");
+                else
+                    window.location.href = "main.html";
+            })
+        }
+    </script>
+
+  <title>MySNS</title>
+</head>
+<body>
+    <div class="page-hdr">MySNS</div>
+    <div class="page-body">
+      <div class="section pad-24 mtop-30">
+        <input type="text" id="id" placeholder="Email Address"/>
+        <input type="password" id="ps" class="mtop-10" placeholder="Password"/>
+        <input type="submit" class="mtop-20" value="Sign in" onclick="login()"/>
+      </div>
+
+      <div class="section pad-24 mtop-30">
+        <div class="desc mtop-20 mbot-20">
+          아이디가 없으세요?<br/>
+          간단한 가입 절차를 통해 MySNS의 회원이 되실 수 있습니다.
+        </div>
+        <a href="signup.html"><div class="button">Sign up</div></a>
+      </div>
+    </div>
+
+    <div class="page-footer">Copyright: mysns.com, 202x</div>
+</body>
+</html>

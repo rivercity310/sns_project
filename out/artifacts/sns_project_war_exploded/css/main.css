@@ -1,0 +1,74 @@
+.page-mnu {
+    float: left;
+    width: 100%;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.page-mnu .menu {
+    float: left;
+    padding: 0px 10px;
+    font-size: 0.95em;
+    cursor: pointer;
+}
+
+.feed {
+    float: left;
+    width: 100%;
+    padding: 10px 0px;
+    border-top: 1px solid #f4f4f4;
+}
+
+.feed .author {
+    float: left;
+    width: 100%;
+    padding: 10px 16px;
+    box-sizing: border-box;
+}
+
+.feed .author .photo {
+    float: left;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    background-image: url("../images/contact.png");
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.feed .author .name {
+    float: left;
+    margin-left: 10px;
+    line-height: 42px;
+    font-weight: bold;
+}
+
+.feed .image {
+    float: left;
+    width: 100%;
+    padding-top: 56.25%;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.feed .text {
+    float: left;
+    width: 100%;
+    margin: 20px 0px;
+    padding: 0px 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;      /* 텍스트 영역에 허용될 라인수 */
+    -webkit-box-orient: vertical;
+}

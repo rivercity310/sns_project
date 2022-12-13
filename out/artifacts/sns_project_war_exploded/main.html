@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="page-hdr">MySNS</div>
+    <div class="page-body">
+        <div class="page-mnu">
+            <div class="menu" onclick="addFeed()">글쓰기</div>
+            <div class="menu" onclick="showFriends()">친구보기</div>
+            <div class="menu" onclick="showUserInfo()">내정보</div>
+        </div>
+        <div id="list" class="section"></div>
+        <div class="section mtop-10 mbot-30 pad-16">
+            <div class="button" onclick="getNext()">작성글 더보기</div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/core.js"></script>
+<script>
+    $(document).ready(() => {
+        Page.init(start);
+    });
+
+    let minNo = -1;
+    let feedList = [];
+    let frIds = null;
+
+    function start(uid) {
+        frIds = '"' + uid + '"';
+        AJAX.call("view/friendList.jsp", { id: uid }, function(data) {
+            const list = JSON.parse(data.trim());
+            for (let i = 0; i < list.length; i++)
+                frIds += ', "' + list[i].id + '"';
+
+            start2(uid);
+        })
+    }
+
+    function start2(uid) {
+        const feeds = DataCache.get("mainCache");
+        if (feeds != null) {
+            console.log("[start] fetch the existing feed list from DataCache ... ");
+            console.log(feeds);
+            feedList = feeds;
+            show(feeds);
+        }
+        else {
+            AJAX.call("view/feedGetGroup.jsp", { frids: frIds }, function(data) {
+                const feeds = JSON.parse(data.trim());
+                console.log("[start] fetch a new feed list from the server ... ");
+                console.log(feeds);
+
+                feedList = feeds;
+                DataCache.set("mainCache", feedList);
+                show(feeds);
+            })
+        }
+    }
+
+    function show(feeds) {
+        // set minNo to detect the end of the list
+        if (feeds.length > 0)
+            minNo = feeds[feeds.length - 1].no;
+
+        let str = "";
+        for (let i = 0; i < feeds.length; i++)
+            str += getFeedCode(feeds[i]);
+
+        $("#list").append(str);
+    }
+
+    function getFeedCode(feed) {
+        const name = feed.user == null ? feed.id : feed.user.name;
+
+        let str = "<div class='feed' onclick='showFeed(" + feed.no + ")'>";
+        str += "<div class='author'>";
+        if (feed.user == null || feed.user.images == null) {
+            str += "<div class='photo'></div>";
+        } else {
+            const imgurl = "images/" + feed.user.images[0];
+            str += "<div class='photo' style='background-image: url(\"" + imgurl + "\")'></div>";
+        }
+        str += "<div class='name'>" + name + "</div>";
+        str += "</div>";
+
+        if (feed.images != null) {
+            const imgurl = "images/" + feed.images[0];
+            str += "<div class='image' style='background-image: url(\"" + imgurl + "\")'></div>";
+        }
+
+        str += "<div class='text'>" + feed.content + "</div>";
+        str += "</div>";
+
+        return str;
+    }
+
+    function showFeed(fno) {
+        for (let i = 0; i < feedList.length; i++) {
+            if (feedList[i].no == fno) {
+                Page.go("feedView.html", feedList[i]);
+                return;
+            }
+        }
+    }
+
+    function getNext() {
+        if (minNo <= 1) {
+            alert("작성글이 더이상 존재하지 않습니다.");
+            return;
+        }
+
+        const params = { frids: frIds, maxNo: minNo };
+        AJAX.call("view/feedGetGroup.jsp", params, function(data) {
+            const feeds = JSON.parse(data.trim());
+            feedList = feedList.concat(feeds);
+            DataCache.set("mainCache", feedList);
+            show(feeds);
+        });
+    }
+
+    function addFeed() {
+        window.location.href = "feedAdd.html";
+    }
+
+    function showFriends() {
+        window.location.href = "friend.html";
+    }
+
+    function showUserInfo() {
+        window.location.href = "userInfo.html";
+    }
+</script>

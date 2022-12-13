@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .desc {
+      float: left;
+      width: 100%;
+      color: #888;
+      font-size: 0.9em;
+    }
+  </style>
+
+  <title></title>
+</head>
+<body>
+  <form action="view/withdraw.jsp" method="post">
+    <div class="page-hdr">MySNS</div>
+
+    <div class="page-body">
+      <div class="section pad-24 mtop-30">
+        <input type="text" name="id" placeholder="Email Address" required/>
+        <input type="submit" class="mtop-20" value="Withdraw" />
+      </div>
+
+      <div class="section pad-24 mtop-30">
+        <div class="desc mtop-20 mbot-20">
+          회원 탈퇴 시 회원 정보 및 활동 내역이 모두 삭제되며, 복원 불가하오니 유의하시기 바랍니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">Copyright: mysns.com, 202x</div>
+  </form>
+</body>
+</html>

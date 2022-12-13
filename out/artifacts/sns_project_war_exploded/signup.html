@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .desc {
+      float: left;
+      width: 100%;
+      color: #888;
+      font-size: 0.9em;
+    }
+  </style>
+
+  <title></title>
+</head>
+<body>
+    <div class="page-hdr">MySNS</div>
+
+    <div class="page-body">
+      <div class="section pad-24 mtop-30">
+        <input type="text" id="id" placeholder="Email Address" required/>
+        <input type="password" id="ps" class="mtop-10" placeholder="Password" required/>
+        <input type="password" id="ps2" class="mtop-10" placeholder="Password Check" required />
+        <input type="text" id="name" class="mtop-10" placeholder="Name" required/>
+        <input type="submit" class="mtop-20" value="Sign up" onclick="signup()"/>
+      </div>
+
+      <div class="section pad-24 mtop-30">
+        <div class="desc mtop-20 mbot-20">
+          회원 가입시 MySNS의 약관에 동의하신 것으로 간주합니다.
+        </div>
+        <a href="#"><div class="button">Show terms</div></a>
+      </div>
+    </div>
+
+    <div class="page-footer">Copyright: mysns.com, 202x</div>
+</body>
+</html>
+
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/core.js"></script>
+<script>
+  function signup() {
+    const id = $("#id").val().trim();
+    if (id == "") {
+      alert("아이디를 입력해주세요.");
+      $("#id").focus();
+      return;
+    }
+
+    const ps = $("#ps").val().trim();
+    if (ps == "") {
+      alert("비밀번호를 입력해주세요.");
+      $("#ps").focus();
+      return;
+    }
+
+    const ps2 = $("#ps2").val().trim();
+    if (ps != ps2) {
+      alert("두 패스워드가 일치하지 않습니다.");
+      $("#ps2").focus();
+      return;
+    }
+
+    const name = $("#name").val().trim();
+    if (name == "") {
+      alert("이름을 입력해주세요.");
+      $("#name").focus();
+      return;
+    }
+
+    const url = "view/signup.jsp";
+    const userobj = { id: id, password: ps, name: name, ts: getToday() };
+    const params = { id: id, jsonstr: JSON.stringify(userobj) };    // stringify(): JSON 스트링 형식으로 변환
+
+    AJAX.call(url, params, function(data) {
+      const code = data.trim();
+      if (code == "EX")
+        alert("이미 가입한 회원입니다.");
+      else if (code == "ER")
+        alert("회원가입 처리 중 오류가 발생했습니다.");
+      else {
+        alert("회원가입이 완료되었습니다.");
+        window.location.href = "main.html";
+      }
+    })
+  }
+
+  function getToday() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+
+    return year + "-" + month + "-" + day;
+  }
+</script>

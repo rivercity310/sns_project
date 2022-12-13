@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="css/core.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <style>
+      .pad-4 { padding: 0 4px; }
+
+      textarea {
+        float: left;
+        width: 100%;
+        height: 160px;
+        padding: 16px;
+        box-sizing: border-box;
+        font-size: 1.0em;
+        font-family: "Malgun Gothic", "Arial";
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        outline: none;
+      }
+
+      input[type=file] {
+        padding: 0px;
+        border: none;
+        outline: none;
+        font-size: 0.95em;
+      }
+
+      .desc {
+        float: left;
+        width: 100%;
+        margin-bottom: 5px;
+        font-size: 0.95em;
+        color: #888;
+      }
+    </style>
+
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script src="js/core.js"></script>
+    <script>
+
+        /*
+        $(document).ready(func) : 페이지가 시작될 때 호출되는 콜백 함수를 정의
+         */
+        $(document).ready(function() {
+            Page.init(start);
+        })
+
+        function start(uid) {
+            // Page setup codes will be placed here..
+            $("#id").val(uid);
+        }
+
+        function getTime() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = ("0" + (1 + date.getMonth())).slice(-2);
+            const day = ("0" + date.getDate()).slice(-2);
+
+            const hour = ("0" + date.getHours()).slice(-2);
+            const min = ("0" + date.getMinutes()).slice(-2);
+            const sec = ("0" + date.getSeconds()).slice(-2);
+
+            return year + "-" + month + "-" + day + "-" + hour + "-" + min + "-" + sec;
+        }
+
+        function upload() {
+            const id = $("#id").val().trim();
+            if (id == "") {
+                alert("아이디를 입력해주세요.");
+                $("#id").focus();
+                return;
+            }
+
+            const content = $("#content").val().trim();
+            if (content == "") {
+                alert("작성글을 입력해주세요.");
+                $("#content").focus();
+                return;
+            }
+
+            /*
+            - 파일의 경우, 파일 이름 외에 파일 크기, 컨텐츠 등의 속성을 포함한 객체 형식을 지님
+            - files 속성 : input 태그에 multiple이 지정되어 있는 경우 여러 파일이 선택될 수 있기 때문에 배열 형태를 지님
+             */
+            const imgobj = $("#image")[0].files[0];
+
+            const jsonobj = { id: id, content: content, ts: getTime() };
+            if (imgobj != null)
+                jsonobj.images = [imgobj.name];
+
+            /*
+            FormData 객체
+            - AJAX를 통해 multipart/form-data 형식의 데이터를 전송할 수 있도록 지원하는 객체
+            - 이 객체에 키-값 형태로 데이터를 추가한 뒤 AJAX 요청시 params로 전달
+             */
+            const params = new FormData();
+            const url = "view/feedAdd.jsp";
+
+            // params.append("id", id);
+            // params.append("content", content);
+            params.append("jsonstr", JSON.stringify(jsonobj));
+            if (imgobj != null)
+                params.append("image", imgobj);
+
+            /*
+            전달되는 데이터가 multipart/form-data 형식임을 알리기 위해 네번쨰 파라미터 true
+             */
+            AJAX.call(url, params, function(data) {
+                const code = data.trim();
+                if (code == "ER")
+                    alert("작성글 업로드 중 오류 발생!");
+                else {
+                    alert("작성글 업로드 완료!");
+                    DataCache.remove("mainCache");
+                    window.location.href = "main.html";
+                }
+            }, true);
+        }
+    </script>
+
+    <title>Title</title>
+</head>
+<body>
+    <div class="page-hdr">MySNS</div>
+
+    <div class="page-body">
+      <div class="section pad-24 mtop-30">
+        <input type="text" id="id" disabled/>
+        <textarea id="content" class="mtop-10" placeholder="이곳에 글을 작성해주세요."></textarea>
+        <div class="section mad-4 mtop-30">
+          <div class="desc">아래에서 이미지를 선택해주세요.</div>
+          <input type="file" id="image"/>
+        </div>
+        <input type="submit" class="mtop-30" value="upload" onclick="upload()"/>
+      </div>
+    </div>
+    <div class="page-footer">Copyright: mysns.com, 202x</div>
+</body>
+</html>
