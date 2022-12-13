@@ -23,12 +23,14 @@ static
  */
 
 public class ConnectionPool {
-    private static DataSource _ds = null;
-
     public static Connection get() throws NamingException, SQLException {
-        if (_ds == null)
-            _ds = (DataSource)(new InitialContext()).lookup("java:comp/env/jdbc/mysns");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/mysns", "root", "8452994ash!");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        return _ds.getConnection();
+        return null;
     }
 }

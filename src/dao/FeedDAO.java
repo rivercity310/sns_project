@@ -6,9 +6,7 @@ import org.json.simple.parser.ParseException;
 import util.ConnectionPool;
 
 import javax.naming.NamingException;
-import java.rmi.Naming;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class FeedDAO {
     public boolean insert(String jsonstr) throws NamingException, SQLException, ParseException {
@@ -108,13 +106,11 @@ public class FeedDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        int N = 3;
-
         try {
             String sql = "SELECT jsonstr FROM feed where id IN (" + frids + ")";
             if (maxNo != null)
                 sql += " AND no < " + maxNo;
-            sql += " ORDER BY no DESC LIMIT " + N;
+            sql += " ORDER BY no DESC LIMIT 3";
 
 
             conn = ConnectionPool.get();
