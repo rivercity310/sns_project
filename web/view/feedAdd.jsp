@@ -16,8 +16,6 @@
 <%
   request.setCharacterEncoding("utf-8");
 
-  /* jsonstr로 통합*/
-  // String uid = null, ucon = null, ufname = null;
   String jsonstr = null;
   String ufname = null;
   byte[] ufile = null;
@@ -32,8 +30,6 @@
 
     if (item.isFormField()) {
       String value = item.getString("utf-8");
-      // if (name.equals("id")) uid = value;
-      // else if (name.equals("content")) ucon = value;
       if (name.equals("jsonstr")) jsonstr = value;
     }
     else {

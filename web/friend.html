@@ -104,6 +104,7 @@
             if (code == "ER") alert("친구 삭제 중 오류 발생");
             else {
                 alert("친구 삭제 완료!");
+                DataCache.remove("mainCache")
                 window.location.reload();
             }
         })

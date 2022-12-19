@@ -101,8 +101,6 @@
             const params = new FormData();
             const url = "view/feedAdd.jsp";
 
-            // params.append("id", id);
-            // params.append("content", content);
             params.append("jsonstr", JSON.stringify(jsonobj));
             if (imgobj != null)
                 params.append("image", imgobj);

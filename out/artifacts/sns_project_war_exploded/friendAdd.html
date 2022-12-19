@@ -104,8 +104,10 @@
             const code = data.trim();
             if (code == "EX")
                 alert("이미 추가된 친구입니다.");
-            else
+            else {
                 alert("친구 추가가 완료되었습니다.");
+                DataCache.add("mainCache");
+            }
         })
     }
 
