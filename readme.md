@@ -1,5 +1,5 @@
 # OOP II PROJECT
-#### Object Oriented Programming II 강의에서 배운 내용을 토대로 간단한 웹 SNS를 구현한 프로젝트입니다.
+**Object Oriented Programming II 강의에서 배운 내용을 토대로 간단한 웹 SNS를 구현한 프로젝트입니다.**
 
 --- 
 
